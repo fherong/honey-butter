@@ -595,10 +595,23 @@
         function spawnRandomShape() {
             let types = ['heart', 'flower', 'star', 'sparkle'];
 
-            if (usImages.length > 0) {
-                 types.push('image', 'image', 'image');
+            const usImages = [];
+            const totalImages = 31; 
+    
+            for (let i = 1; i <= totalImages; i++) {
+                const img = new Image();
+                const path = `pics/img${i}.jpg`; 
+                img.src = path;
+    
+                img.onload = () => {
+                    usImages.push(img);
+                    console.log(`✅ Loaded: ${path}`);
+                };
+    
+                img.onerror = () => {
+                    console.error(`❌ FAILED: ${path} (Check this filename on GitHub!)`);
+                };
             }
-
             const type = types[Math.floor(Math.random() * types.length)];
 
             const shape = {
@@ -1149,6 +1162,7 @@
     </script>
 </body>
 </html>
+
 
 
 
