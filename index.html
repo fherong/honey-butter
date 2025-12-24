@@ -220,11 +220,14 @@
         const jhaeivyClosed = new Image(); jhaeivyClosed.src = 'jhaeivy.png';
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
 
-        // --- GLOBAL IMAGE LOADING (Runs Once) ---
+        // --- GLOBAL IMAGE LOADING (SAFE MODE) ---
+        // 1. We create the list exactly ONCE.
         const usImages = [];
         const totalImages = 31;
 
+        // 2. We loop to find files. If found, add to list. If not, ignore.
         for (let i = 1; i <= totalImages; i++) {
+            // Manually skip the ones you know are missing to save time
             if (i === 4 || i === 16 || i === 24) continue;
 
             const img = new Image();
@@ -236,6 +239,7 @@
             };
 
             img.onerror = () => {
+                // This prevents the console from turning red if a file is missing
                 console.log(`⚠️ Skipped missing file: img${i}`);
             };
         }
@@ -459,6 +463,7 @@
 
         let lastImageIndex = -1;
 
+        // --- FIXED SPAWN FUNCTION: Uses the global usImages list ---
         function spawnRandomShape() {
             let types = ['heart', 'flower', 'star', 'sparkle'];
 
@@ -577,33 +582,28 @@
             }
         }
 
-        // --- RESTORED DRAW FUNCTION ---
+        // --- DRAW FUNCTION ---
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // --- MENU STATE ---
             if (gameState === 'menu') {
                 drawMenu();
                 return;
             }
 
-            // --- CREDITS STATE ---
             if (gameState === 'credits') {
-                updateCredits(); // Logic for moving credits
-                drawCredits();   // Actual drawing of text and shapes
+                updateCredits();
+                drawCredits();
                 return;
             }
 
-            // --- PLAYING STATE ---
             if (isTalking) {
-                // Background
                 if (talkingBgImg.complete && talkingBgImg.naturalWidth !== 0) {
                     ctx.drawImage(talkingBgImg, 0, 0, canvas.width, canvas.height);
                 } else {
                     ctx.fillStyle = "#2a1b3d"; ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
 
-                // Stars overlay
                 ctx.fillStyle = "#fff";
                 stars.forEach(star => {
                     ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
@@ -611,7 +611,6 @@
                 });
                 ctx.globalAlpha = 1.0;
 
-                // Floating Hearts
                 hearts.forEach(h => {
                     ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
                     ctx.fillRect(h.x, h.y, h.size, h.size);
@@ -623,7 +622,6 @@
                 const imgW = 200; const imgH = 250;
                 const speaker = script[scriptIndex].speaker;
 
-                // Async Animation Logic
                 const fherTick = Math.floor(Date.now() / 700) % 2 === 0;
                 const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
                 let fherCurrent = fherAnimating ? fherOpen : fherClosed;
@@ -636,21 +634,15 @@
                 if (jhaeivyClosed.complete) ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
 
             } else {
-                // Exploration Mode
                 drawScenery();
-
-                // Draw Particles
                 particles.forEach(p => {
                     ctx.fillStyle = p.color;
                     ctx.globalAlpha = p.life;
                     ctx.fillRect(p.x, p.y, p.size, p.size);
                 });
                 ctx.globalAlpha = 1.0;
-
                 drawPixelChar(fher, 'fher');
                 drawPixelChar(jhaeivy, 'jhaeivy');
-
-                // Nametags
                 ctx.fillStyle = "#fff";
                 ctx.font = "10px Courier New";
                 ctx.fillText("Fher", fher.x + 2, fher.y - 8);
