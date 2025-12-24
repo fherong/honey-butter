@@ -590,6 +590,8 @@
             }
         }
 
+        let lastImageIndex = -1;
+
         function spawnRandomShape() {
             let types = ['heart', 'flower', 'star', 'sparkle'];
 
@@ -608,10 +610,16 @@
 
             if (type === 'image') {
                 shape.y = canvas.height + 50 + Math.random() * 150;
-
                 shape.speed = 0.4 + Math.random() * 0.4;
 
-                shape.img = usImages[Math.floor(Math.random() * usImages.length)];
+                let index = Math.floor(Math.random() * usImages.length);
+                
+                if (usImages.length > 1 && index === lastImageIndex) {
+                    index = (index + 1) % usImages.length;
+                }
+                lastImageIndex = index;
+
+                shape.img = usImages[index];
                 shape.size = 30 + Math.random() * 30;
                 shape.opacity = 0.8 + Math.random() * 0.2;
                 shape.isMovingUp = true;
@@ -1141,6 +1149,7 @@
     </script>
 </body>
 </html>
+
 
 
 
