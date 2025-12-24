@@ -590,14 +590,10 @@
         }
 
         let lastImageIndex = -1;
+        const usImages = [];
+        const totalImages = 31;
 
-        function spawnRandomShape() {
-            let types = ['heart', 'flower', 'star', 'sparkle'];
-
-            const usImages = [];
-            const totalImages = 31; 
-    
-            for (let i = 1; i <= totalImages; i++) {
+        for (let i = 1; i <= totalImages; i++) {
             if (i === 4 || i === 16) continue;
 
             const img = new Image();
@@ -605,13 +601,21 @@
 
             img.onload = () => {
                 usImages.push(img);
-                console.log(`✅ Loaded img${i}`);
             };
 
             img.onerror = () => {
-                console.log(`⚠️ Skipped missing/broken file: img${i}`);
+                console.log(`⚠️ Skipped missing file: img${i}`);
             };
         }
+
+        let lastImageIndex = -1;
+        function spawnRandomShape() {
+            let types = ['heart', 'flower', 'star', 'sparkle'];
+
+            if (usImages.length > 0) {
+                 types.push('image', 'image', 'image');
+            }
+
             const type = types[Math.floor(Math.random() * types.length)];
 
             const shape = {
@@ -626,7 +630,6 @@
                 shape.speed = 0.4 + Math.random() * 0.4;
 
                 let index = Math.floor(Math.random() * usImages.length);
-                
                 if (usImages.length > 1 && index === lastImageIndex) {
                     index = (index + 1) % usImages.length;
                 }
@@ -1162,6 +1165,7 @@
     </script>
 </body>
 </html>
+
 
 
 
