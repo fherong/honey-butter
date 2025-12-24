@@ -32,11 +32,11 @@
         }
 
         @media only screen and (max-width: 700px) {
-        
+
             #game-container {
-                width: 96vw;  
-                height: auto;      
-                aspect-ratio: 4/3; 
+                width: 96vw;
+                height: auto;
+                aspect-ratio: 4/3;
             }
 
             canvas {
@@ -45,21 +45,21 @@
             }
 
             #dialogue-box {
-                height: 60px !important; 
-                bottom: 10px !important; 
-                padding: 8px 10px !important; 
-                font-size: 6px !important;
+                height: 70px !important;
+                bottom: 10px !important;
+                padding: 8px 10px !important;
+                font-size: 8px !important;
                 line-height: 1.3 !important;
                 border-width: 2px !important;
             }
 
             .name-tag {
-                font-size: 8px !important;
+                font-size: 11px !important;
                 margin-bottom: 2px !important;
                 letter-spacing: 1px !important;
             }
         }
-        
+
         canvas {
             display: block;
             image-rendering: pixelated;
@@ -229,7 +229,7 @@
         window.addEventListener('click', startMusic);
         window.addEventListener('keydown', startMusic);
         window.addEventListener('touchstart', startMusic);
-        
+
         const dBox = document.getElementById('dialogue-box');
         const textContent = document.getElementById('text-content');
         const instructions = document.getElementById('instructions');
@@ -239,6 +239,71 @@
         const fherOpen = new Image();   fherOpen.src = 'fher_talking.png';
         const jhaeivyClosed = new Image(); jhaeivyClosed.src = 'jhaeivy.png';
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
+
+        const usImages = [];
+        const img1 = new Image(); img1.src = '/pics/img1.jpg';
+        const img2 = new Image(); img2.src = '/pics/img2.jpg';
+        const img3 = new Image(); img3.src = '/pics/img3.jpg';
+        const img4 = new Image(); img4.src = '/pics/img4.jpg';
+        const img5 = new Image(); img5.src = '/pics/img5.jpg';
+        const img6 = new Image(); img6.src = '/pics/img6.jpg';
+        const img7 = new Image(); img7.src = '/pics/img7.jpg';
+        const img8 = new Image(); img8.src = '/pics/img8.jpg';
+        const img9 = new Image(); img9.src = '/pics/img9.jpg';
+        const img10 = new Image(); img10.src = '/pics/img10.jpg';
+        const img11 = new Image(); img11.src = '/pics/img11.jpg';
+        const img12 = new Image(); img12.src = '/pics/img12.jpg';
+        const img13 = new Image(); img13.src = '/pics/img13.jpg';
+        const img14 = new Image(); img14.src = '/pics/img14.jpg';
+        const img15 = new Image(); img15.src = '/pics/img15.jpg';
+        const img16 = new Image(); img16.src = '/pics/img16.jpg';
+        const img17 = new Image(); img17.src = '/pics/img17.jpg';
+        const img18 = new Image(); img18.src = '/pics/img18.jpg';
+        const img19 = new Image(); img19.src = '/pics/img19.jpg';
+        const img20 = new Image(); img20.src = '/pics/img20.jpg';
+        const img21 = new Image(); img21.src = '/pics/img21.jpg';
+        const img22 = new Image(); img22.src = '/pics/img22.jpg';
+        const img23 = new Image(); img23.src = '/pics/img23.jpg';
+        const img24 = new Image(); img24.src = '/pics/img24.jpg';
+        const img25 = new Image(); img25.src = '/pics/img25.jpg';
+        const img26 = new Image(); img26.src = '/pics/img26.jpg';
+        const img27 = new Image(); img27.src = '/pics/img27.jpg';
+        const img28 = new Image(); img28.src = '/pics/img28.jpg';
+        const img29 = new Image(); img29.src = '/pics/img29.jpg';
+        const img30 = new Image(); img30.src = '/pics/img30.jpg';
+        const img31 = new Image(); img31.src = '/pics/img31.jpg';
+
+        img1.onload = () => usImages.push(img1);
+        img2.onload = () => usImages.push(img2);
+        img3.onload = () => usImages.push(img3);
+        img4.onload = () => usImages.push(img4);
+        img5.onload = () => usImages.push(img5);
+        img6.onload = () => usImages.push(img6);
+        img7.onload = () => usImages.push(img7);
+        img8.onload = () => usImages.push(img8);
+        img9.onload = () => usImages.push(img9);
+        img10.onload = () => usImages.push(img10);
+        img11.onload = () => usImages.push(img11);
+        img12.onload = () => usImages.push(img12);
+        img13.onload = () => usImages.push(img13);
+        img14.onload = () => usImages.push(img14);
+        img15.onload = () => usImages.push(img15);
+        img16.onload = () => usImages.push(img16);
+        img17.onload = () => usImages.push(img17);
+        img18.onload = () => usImages.push(img18);
+        img19.onload = () => usImages.push(img19);
+        img20.onload = () => usImages.push(img20);
+        img21.onload = () => usImages.push(img21);
+        img22.onload = () => usImages.push(img22);
+        img23.onload = () => usImages.push(img23);
+        img24.onload = () => usImages.push(img24);
+        img25.onload = () => usImages.push(img25);
+        img26.onload = () => usImages.push(img26);
+        img27.onload = () => usImages.push(img27);
+        img28.onload = () => usImages.push(img28);
+        img29.onload = () => usImages.push(img29);
+        img30.onload = () => usImages.push(img30);
+        img31.onload = () => usImages.push(img31);
 
         const script = [
             { speaker: "Jhaeivy", text: "Hi, Fher!" },
@@ -532,18 +597,39 @@
         }
 
         function spawnRandomShape() {
-            const types = ['heart', 'flower', 'star', 'sparkle'];
+            let types = ['heart', 'flower', 'star', 'sparkle'];
+
+            if (usImages.length > 0) {
+                 types.push('image', 'image', 'image');
+            }
+
             const type = types[Math.floor(Math.random() * types.length)];
-            creditsShapes.push({
+
+            const shape = {
                 type: type,
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: 10 + Math.random() * 20,
+                x: 40 + Math.random() * (canvas.width - 80),
                 rotation: Math.random() * Math.PI * 2,
-                rotSpeed: (Math.random() - 0.5) * 0.05,
-                opacity: 0.3 + Math.random() * 0.5,
-                color: ['#ff99aa', '#ffccaa', '#b388eb', '#88ffcc'][Math.floor(Math.random() * 4)]
-            });
+                rotSpeed: (Math.random() - 0.5) * 0.02,
+            };
+
+            if (type === 'image') {
+                shape.y = canvas.height + 50 + Math.random() * 150;
+
+                shape.speed = 0.4 + Math.random() * 0.4;
+
+                shape.img = usImages[Math.floor(Math.random() * usImages.length)];
+                shape.size = 30 + Math.random() * 30;
+                shape.opacity = 0.8 + Math.random() * 0.2;
+                shape.isMovingUp = true;
+            } else {
+                shape.y = Math.random() * canvas.height;
+                shape.size = 10 + Math.random() * 20;
+                shape.opacity = 0.3 + Math.random() * 0.5;
+                shape.color = ['#ff99aa', '#ffccaa', '#b388eb', '#88ffcc'][Math.floor(Math.random() * 4)];
+                shape.isMovingUp = false;
+            }
+
+            creditsShapes.push(shape);
         }
 
         function drawShape(shape) {
@@ -554,7 +640,15 @@
 
             const s = shape.size;
 
-            if (shape.type === 'heart') {
+            if (shape.type === 'image') {
+                if(shape.img.complete) {
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(-s/2 - 2, -s/2 - 2, s + 4, s + 4);
+                    ctx.drawImage(shape.img, -s/2, -s/2, s, s);
+                }
+            }
+
+            else if (shape.type === 'heart') {
                 ctx.fillStyle = shape.color;
                 ctx.beginPath();
                 ctx.moveTo(0, s * 0.3);
@@ -607,17 +701,24 @@
 
         function updateCredits() {
             creditsScroll += 1;
-
             if (Math.random() < 0.03) {
                 spawnRandomShape();
             }
 
-            creditsShapes.forEach(shape => {
-                shape.rotation += shape.rotSpeed;
-            });
+            for (let i = creditsShapes.length - 1; i >= 0; i--) {
+                let shape = creditsShapes[i];
 
-            if (creditsShapes.length > 50) {
-                creditsShapes.shift();
+                shape.rotation += shape.rotSpeed;
+
+                if (shape.isMovingUp) {
+                    shape.y -= shape.speed;
+                }
+
+                if (creditsShapes.length > 60 && !shape.isMovingUp) {
+                    creditsShapes.splice(i, 1);
+                } else if (shape.isMovingUp && shape.y < -150) {
+                    creditsShapes.splice(i, 1);
+                }
             }
         }
 
@@ -1046,13 +1147,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
