@@ -201,10 +201,28 @@
 
         function startMusic() {
             if (!musicStarted) {
-                bgMusic.play().catch(e => console.log('Audio play failed:', e));
+                // Try to play
+                bgMusic.play().then(() => {
+                    // If successful, remove the listeners so it doesn't try again
+                    console.log("Music started!");
+                    removeGlobalListeners();
+                }).catch(e => {
+                    console.log('Audio blocked (waiting for interaction):', e);
+                });
+                
                 musicStarted = true;
             }
         }
+
+        function removeGlobalListeners() {
+            window.removeEventListener('click', startMusic);
+            window.removeEventListener('keydown', startMusic);
+            window.removeEventListener('touchstart', startMusic);
+        }
+
+        window.addEventListener('click', startMusic);
+        window.addEventListener('keydown', startMusic);
+        window.addEventListener('touchstart', startMusic);
         
         const dBox = document.getElementById('dialogue-box');
         const textContent = document.getElementById('text-content');
@@ -1022,6 +1040,7 @@
     </script>
 </body>
 </html>
+
 
 
 
