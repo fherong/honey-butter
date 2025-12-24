@@ -201,15 +201,12 @@
 
         function startMusic() {
             if (!musicStarted) {
-                // Try to play
                 bgMusic.play().then(() => {
-                    // We only run this code if the music successfully starts
                     console.log("Music started!");
-                    musicStarted = true; // <--- MOVED INSIDE HERE
+                    musicStarted = true;
                     removeGlobalListeners();
                 }).catch(e => {
                     console.log('Audio blocked (will try again on next click):', e);
-                    // We do NOT set musicStarted to true here, so the next click tries again
                 });
             }
         }
@@ -1040,6 +1037,7 @@
     </script>
 </body>
 </html>
+
 
 
 
