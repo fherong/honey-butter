@@ -238,18 +238,9 @@
                 usImages.push(img);
                 console.log(`✅ Loaded: ${img.src}`);
             };
-
-            // 4. Error Handler (CRASH FIXED HERE)
-            img.onerror = () => {
-                // We use 'img.src' instead of 'this.src' to be safe
-                if (img.src.includes('.jpg')) {
-                    // It failed on .jpg, so let's try .JPG
-                    console.log(`⚠️ img${i}.jpg failed, trying uppercase .JPG...`);
-                    img.src = `pics/img${i}.JPG`;
-                } else {
-                    // It failed on .JPG too, so it's truly gone.
+            
+            img.onerror = () => {=
                     console.log(`❌ Skipped completely missing file: img${i}`);
-                }
             };
         }
 
@@ -809,3 +800,4 @@
     </script>
 </body>
 </html>
+
