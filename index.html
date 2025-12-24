@@ -221,12 +221,10 @@
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
 
         // --- GLOBAL IMAGE LOADING (Runs Once) ---
-        // This is the ONLY place 'usImages' should be defined!
         const usImages = [];
         const totalImages = 31;
 
         for (let i = 1; i <= totalImages; i++) {
-            // Correctly skip 4, 16, and 24
             if (i === 4 || i === 16 || i === 24) continue;
 
             const img = new Image();
@@ -461,11 +459,9 @@
 
         let lastImageIndex = -1;
 
-        // FIXED: Re-added spawnRandomShape without the duplicate loading loop
         function spawnRandomShape() {
             let types = ['heart', 'flower', 'star', 'sparkle'];
 
-            // Only allow 'image' if we have loaded some
             if (usImages.length > 0) {
                  types.push('image', 'image', 'image');
             }
@@ -578,6 +574,87 @@
                 } else if (shape.isMovingUp && shape.y < -150) {
                     creditsShapes.splice(i, 1);
                 }
+            }
+        }
+
+        // --- RESTORED DRAW FUNCTION ---
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // --- MENU STATE ---
+            if (gameState === 'menu') {
+                drawMenu();
+                return;
+            }
+
+            // --- CREDITS STATE ---
+            if (gameState === 'credits') {
+                updateCredits(); // Logic for moving credits
+                drawCredits();   // Actual drawing of text and shapes
+                return;
+            }
+
+            // --- PLAYING STATE ---
+            if (isTalking) {
+                // Background
+                if (talkingBgImg.complete && talkingBgImg.naturalWidth !== 0) {
+                    ctx.drawImage(talkingBgImg, 0, 0, canvas.width, canvas.height);
+                } else {
+                    ctx.fillStyle = "#2a1b3d"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                // Stars overlay
+                ctx.fillStyle = "#fff";
+                stars.forEach(star => {
+                    ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
+                    ctx.fillRect(star.x, star.y, star.size, star.size);
+                });
+                ctx.globalAlpha = 1.0;
+
+                // Floating Hearts
+                hearts.forEach(h => {
+                    ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
+                    ctx.fillRect(h.x, h.y, h.size, h.size);
+                    ctx.fillRect(h.x-h.size, h.y-h.size, h.size, h.size);
+                    ctx.fillRect(h.x+h.size, h.y-h.size, h.size, h.size);
+                    ctx.fillRect(h.x, h.y-h.size*2, h.size, h.size);
+                });
+
+                const imgW = 200; const imgH = 250;
+                const speaker = script[scriptIndex].speaker;
+
+                // Async Animation Logic
+                const fherTick = Math.floor(Date.now() / 700) % 2 === 0;
+                const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
+                let fherCurrent = fherAnimating ? fherOpen : fherClosed;
+
+                if (fherClosed.complete) ctx.drawImage(fherCurrent, 50, 100, imgW, imgH);
+
+                const jhaeivyTick = Math.floor(Date.now() / 2000) % 2 === 0;
+                let jhaeivyCurrent = jhaeivyTick ? jhaeivyOpen : jhaeivyClosed;
+
+                if (jhaeivyClosed.complete) ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
+
+            } else {
+                // Exploration Mode
+                drawScenery();
+
+                // Draw Particles
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                });
+                ctx.globalAlpha = 1.0;
+
+                drawPixelChar(fher, 'fher');
+                drawPixelChar(jhaeivy, 'jhaeivy');
+
+                // Nametags
+                ctx.fillStyle = "#fff";
+                ctx.font = "10px Courier New";
+                ctx.fillText("Fher", fher.x + 2, fher.y - 8);
+                ctx.fillText("Jhaeivy", jhaeivy.x - 2, jhaeivy.y - 8);
             }
         }
 
