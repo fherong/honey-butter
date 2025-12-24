@@ -169,7 +169,7 @@
     </style>
 </head>
 <body>
-<audio id="bgMusic" src="softspot.mp3" loop></audio>
+<audio id="bgMusic" src="softspot.mp3" loop muted autoplay></audio>
     <h1>Project: Honey Butter</h1>
     <div id="game-container">
         <canvas id="gameCanvas" width="640" height="480"></canvas>
@@ -195,6 +195,10 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
+
+        const bgMusic = document.getElementById('bgMusic');
+        window.addEventListener('click', () => { bgMusic.muted = false; });
+        window.addEventListener('keydown', () => { bgMusic.muted = false; });
 
         const dBox = document.getElementById('dialogue-box');
         const textContent = document.getElementById('text-content');
@@ -1012,5 +1016,6 @@
     </script>
 </body>
 </html>
+
 
 
