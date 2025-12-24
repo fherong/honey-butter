@@ -203,14 +203,14 @@
             if (!musicStarted) {
                 // Try to play
                 bgMusic.play().then(() => {
-                    // If successful, remove the listeners so it doesn't try again
+                    // We only run this code if the music successfully starts
                     console.log("Music started!");
+                    musicStarted = true; // <--- MOVED INSIDE HERE
                     removeGlobalListeners();
                 }).catch(e => {
-                    console.log('Audio blocked (waiting for interaction):', e);
+                    console.log('Audio blocked (will try again on next click):', e);
+                    // We do NOT set musicStarted to true here, so the next click tries again
                 });
-                
-                musicStarted = true;
             }
         }
 
@@ -1040,6 +1040,7 @@
     </script>
 </body>
 </html>
+
 
 
 
