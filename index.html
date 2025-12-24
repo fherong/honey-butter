@@ -598,19 +598,20 @@
             const totalImages = 31; 
     
             for (let i = 1; i <= totalImages; i++) {
-                const img = new Image();
-                const path = `pics/img${i}.jpg`; 
-                img.src = path;
-    
-                img.onload = () => {
-                    usImages.push(img);
-                    console.log(`✅ Loaded: ${path}`);
-                };
-    
-                img.onerror = () => {
-                    console.error(`❌ FAILED: ${path} (Check this filename on GitHub!)`);
-                };
-            }
+            if (i === 4 || i === 16) continue;
+
+            const img = new Image();
+            img.src = `pics/img${i}.jpg`; 
+
+            img.onload = () => {
+                usImages.push(img);
+                console.log(`✅ Loaded img${i}`);
+            };
+
+            img.onerror = () => {
+                console.log(`⚠️ Skipped missing/broken file: img${i}`);
+            };
+        }
             const type = types[Math.floor(Math.random() * types.length)];
 
             const shape = {
@@ -1161,6 +1162,7 @@
     </script>
 </body>
 </html>
+
 
 
 
