@@ -32,18 +32,15 @@
         }
 
         @media only screen and (max-width: 700px) {
-
             #game-container {
                 width: 96vw;
                 height: auto;
                 aspect-ratio: 4/3;
             }
-
             canvas {
                 width: 100% !important;
                 height: 100% !important;
             }
-
             #dialogue-box {
                 height: 75px !important;
                 bottom: 10px !important;
@@ -52,7 +49,6 @@
                 line-height: 1.3 !important;
                 border-width: 2px !important;
             }
-
             .name-tag {
                 font-size: 11px !important;
                 margin-bottom: 2px !important;
@@ -71,22 +67,17 @@
             left: 5%;
             width: 90%;
             height: 120px;
-
             background-color: rgba(20, 15, 30, 0.95);
             border: 3px solid #b388eb;
             border-radius: 10px;
-
             box-sizing: border-box;
             padding: 14px 18px;
-
             font-family: 'Courier New', Courier, monospace;
             font-size: 18px;
             line-height: 1.5;
             color: #fff;
-
             display: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-
             z-index: 10;
         }
 
@@ -95,12 +86,10 @@
             font-weight: bold;
             display: block;
             margin-bottom: 6px;
-
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 2px 2px 0px #000;
         }
-
 
         h1 {
             font-size: 16px;
@@ -111,7 +100,6 @@
             text-shadow: 0 0 10px rgba(179, 136, 235, 0.5);
         }
 
-        /* --- Mobile Controls --- */
         #mobile-controls {
             display: none;
             width: 100%;
@@ -127,9 +115,7 @@
         }
 
         @media (max-width: 900px) {
-            #mobile-controls {
-                display: flex;
-            }
+            #mobile-controls { display: flex; }
             #instructions { font-size: 10px; }
         }
 
@@ -162,19 +148,13 @@
             background: rgba(179, 136, 235, 0.4);
         }
 
-        .dpad-btn {
-            width: 60px;
-            height: 60px;
-        }
-
+        .dpad-btn { width: 60px; height: 60px; }
         .action-btn {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             background: rgba(179, 136, 235, 0.2);
             border-color: #ff99aa;
             color: #ff99aa;
         }
-
     </style>
 </head>
 <body>
@@ -215,7 +195,7 @@
                     musicStarted = true;
                     removeGlobalListeners();
                 }).catch(e => {
-                    console.log('Audio blocked (will try again on next click):', e);
+                    console.log('Audio blocked:', e);
                 });
             }
         }
@@ -240,63 +220,26 @@
         const jhaeivyClosed = new Image(); jhaeivyClosed.src = 'jhaeivy.png';
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
 
+        // --- GLOBAL IMAGE LOADING (Runs Once) ---
         const usImages = [];
-        const img1 = new Image(); img1.src = 'pics/img1.jpg';
-        const img2 = new Image(); img2.src = 'pics/img2.jpg';
-        const img3 = new Image(); img3.src = 'pics/img3.jpg';
-        const img5 = new Image(); img5.src = 'pics/img5.jpg';
-        const img6 = new Image(); img6.src = 'pics/img6.jpg';
-        const img7 = new Image(); img7.src = 'pics/img7.jpg';
-        const img8 = new Image(); img8.src = 'pics/img8.jpg';
-        const img9 = new Image(); img9.src = 'pics/img9.jpg';
-        const img10 = new Image(); img10.src = 'pics/img10.jpg';
-        const img11 = new Image(); img11.src = 'pics/img11.jpg';
-        const img12 = new Image(); img12.src = 'pics/img12.jpg';
-        const img13 = new Image(); img13.src = 'pics/img13.jpg';
-        const img14 = new Image(); img14.src = 'pics/img14.jpg';
-        const img15 = new Image(); img15.src = 'pics/img15.jpg';
-        const img17 = new Image(); img17.src = 'pics/img17.jpg';
-        const img18 = new Image(); img18.src = 'pics/img18.jpg';
-        const img19 = new Image(); img19.src = 'pics/img19.jpg';
-        const img20 = new Image(); img20.src = 'pics/img20.jpg';
-        const img21 = new Image(); img21.src = 'pics/img21.jpg';
-        const img22 = new Image(); img22.src = 'pics/img22.jpg';
-        const img23 = new Image(); img23.src = 'pics/img23.jpg';
-        const img25 = new Image(); img25.src = 'pics/img25.jpg';
-        const img26 = new Image(); img26.src = 'pics/img26.jpg';
-        const img27 = new Image(); img27.src = 'pics/img27.jpg';
-        const img28 = new Image(); img28.src = 'pics/img28.jpg';
-        const img29 = new Image(); img29.src = 'pics/img29.jpg';
-        const img30 = new Image(); img30.src = 'pics/img30.jpg';
-        const img31 = new Image(); img31.src = 'pics/img31.jpg';
+        const totalImages = 31;
 
-        img1.onload = () => usImages.push(img1);
-        img2.onload = () => usImages.push(img2);
-        img3.onload = () => usImages.push(img3);
-        img5.onload = () => usImages.push(img5);
-        img6.onload = () => usImages.push(img6);
-        img7.onload = () => usImages.push(img7);
-        img9.onload = () => usImages.push(img9);
-        img10.onload = () => usImages.push(img10);
-        img11.onload = () => usImages.push(img11);
-        img12.onload = () => usImages.push(img12);
-        img13.onload = () => usImages.push(img13);
-        img14.onload = () => usImages.push(img14);
-        img15.onload = () => usImages.push(img15);
-        img17.onload = () => usImages.push(img17);
-        img18.onload = () => usImages.push(img18);
-        img19.onload = () => usImages.push(img19);
-        img20.onload = () => usImages.push(img20);
-        img21.onload = () => usImages.push(img21);
-        img22.onload = () => usImages.push(img22);
-        img23.onload = () => usImages.push(img23);
-        img25.onload = () => usImages.push(img25);
-        img26.onload = () => usImages.push(img26);
-        img27.onload = () => usImages.push(img27);
-        img28.onload = () => usImages.push(img28);
-        img29.onload = () => usImages.push(img29);
-        img30.onload = () => usImages.push(img30);
-        img31.onload = () => usImages.push(img31);
+        for (let i = 1; i <= totalImages; i++) {
+            // Correctly skip 4, 16, and 24
+            if (i === 4 || i === 16 || i === 24) continue;
+
+            const img = new Image();
+            img.src = `pics/img${i}.jpg`; 
+
+            img.onload = () => {
+                usImages.push(img);
+                console.log(`✅ Loaded: pics/img${i}.jpg`);
+            };
+
+            img.onerror = () => {
+                console.log(`⚠️ Skipped missing file: img${i}`);
+            };
+        }
 
         const script = [
             { speaker: "Jhaeivy", text: "Hi, Fher!" },
@@ -328,13 +271,11 @@
         let creditsScroll = 0;
         let creditsShapes = [];
 
-        // Particle effects
         let particles = [];
         let fireflies = [];
         let shootingStars = [];
         let grassBlades = [];
 
-        // Stars & Clouds
         const stars = Array.from({length: 100}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height * 0.6,
@@ -348,43 +289,23 @@
             {x: 250, y: 50, w: 80, h: 30, speed: 0.08}
         ];
 
-        const fher = {
-            x: 480, y: 360, w: 32, h: 48,
-            color: '#2e8b57',
-            facing: 'left',
-            idleAnim: 0,
-            emoteTimer: 0
-        };
-        const jhaeivy = {
-            x: 100, y: 360, w: 32, h: 48,
-            color: '#ff99aa',
-            speed: 2,
-            facing: 'right',
-            isMoving: false,
-            idleAnim: 0
-        };
+        const fher = { x: 480, y: 360, w: 32, h: 48, color: '#2e8b57', facing: 'left', idleAnim: 0, emoteTimer: 0 };
+        const jhaeivy = { x: 100, y: 360, w: 32, h: 48, color: '#ff99aa', speed: 2, facing: 'right', isMoving: false, idleAnim: 0 };
         const keys = {};
 
-        // fireflies
         for (let i = 0; i < 15; i++) {
             fireflies.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * (canvas.height * 0.7),
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                brightness: Math.random(),
-                glowPhase: Math.random() * Math.PI * 2
+                vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
+                brightness: Math.random(), glowPhase: Math.random() * Math.PI * 2
             });
         }
 
-        // Grass
         for (let i = 0; i < canvas.width; i += 4) {
             grassBlades.push({
-                x: i,
-                y: 400,
-                h: 4 + Math.random() * 6,
-                swaySpeed: 0.001 + Math.random() * 0.002,
-                swayPhase: Math.random() * Math.PI * 2
+                x: i, y: 400, h: 4 + Math.random() * 6,
+                swaySpeed: 0.001 + Math.random() * 0.002, swayPhase: Math.random() * Math.PI * 2
             });
         }
 
@@ -397,8 +318,7 @@
                 } else if (gameState === 'playing') {
                     if (!isTalking) checkInteraction();
                     else nextLine();
-                }
-                else if (gameState === 'credits' && creditsScroll > 2000) {
+                } else if (gameState === 'credits' && creditsScroll > 2000) {
                     gameState = 'menu';
                     creditsScroll = 0;
                     scriptIndex = 0;
@@ -421,19 +341,15 @@
             }
         }
 
-        // --- TYPING LOGIC ---
         function typeLine() {
             textContent.innerHTML = "";
             charIndex = 0;
             clearInterval(typingInterval);
             isTyping = true;
-
             const currentLine = script[scriptIndex].text;
             const speaker = script[scriptIndex].speaker;
             const nameColor = speaker === 'Fher' ? '#88ffcc' : '#ffbbcc';
-
             textContent.innerHTML = `<span class="name-tag" style="color:${nameColor};">${speaker}</span>`;
-
             typingInterval = setInterval(() => {
                 textContent.innerHTML += currentLine.charAt(charIndex);
                 charIndex++;
@@ -467,27 +383,18 @@
 
         function createParticle(x, y) {
             particles.push({
-                x: x,
-                y: y,
-                vx: (Math.random() - 0.5) * 2,
-                vy: -Math.random() * 2 - 1,
-                life: 1,
-                size: Math.random() * 3 + 1,
-                color: Math.random() > 0.5 ? '#ff99aa' : '#ffccaa'
+                x: x, y: y, vx: (Math.random() - 0.5) * 2, vy: -Math.random() * 2 - 1, life: 1,
+                size: Math.random() * 3 + 1, color: Math.random() > 0.5 ? '#ff99aa' : '#ffccaa'
             });
         }
 
         function update() {
             if (gameState === 'menu' || gameState === 'credits') return;
-
             if (isTalking) {
                 if (Math.random() < 0.05) {
                     hearts.push({
-                        x: Math.random() * canvas.width,
-                        y: canvas.height + 10,
-                        speed: 0.5 + Math.random(),
-                        size: 2 + Math.random() * 4,
-                        opacity: 1
+                        x: Math.random() * canvas.width, y: canvas.height + 10,
+                        speed: 0.5 + Math.random(), size: 2 + Math.random() * 4, opacity: 1
                     });
                 }
                 for (let i = hearts.length - 1; i >= 0; i--) {
@@ -497,90 +404,52 @@
                 }
                 return;
             }
-
-            // clouds
             clouds.forEach(cloud => {
                 cloud.x += cloud.speed;
                 if (cloud.x > canvas.width) cloud.x = -cloud.w;
             });
-
-            // shooting stars
             if (Math.random() < 0.003) {
                  shootingStars.push({
-                     x: Math.random() * canvas.width + 100,
-                     y: Math.random() * canvas.height / 3,
-                     vx: -4 - Math.random() * 2,
-                     vy: 1 + Math.random(),
-                     len: 30 + Math.random() * 20,
-                     life: 1.0
+                     x: Math.random() * canvas.width + 100, y: Math.random() * canvas.height / 3,
+                     vx: -4 - Math.random() * 2, vy: 1 + Math.random(), len: 30 + Math.random() * 20, life: 1.0
                  });
             }
             for (let i = shootingStars.length - 1; i >= 0; i--) {
                 let ss = shootingStars[i];
-                ss.x += ss.vx;
-                ss.y += ss.vy;
-                ss.life -= 0.015;
+                ss.x += ss.vx; ss.y += ss.vy; ss.life -= 0.015;
                 if (ss.life <= 0 || ss.x + ss.len < 0) shootingStars.splice(i, 1);
             }
-
-            // fireflies
             fireflies.forEach(firefly => {
-                firefly.x += firefly.vx;
-                firefly.y += firefly.vy;
-                firefly.glowPhase += 0.05;
-
-                // Bounce off edges
+                firefly.x += firefly.vx; firefly.y += firefly.vy; firefly.glowPhase += 0.05;
                 if (firefly.x < 0 || firefly.x > canvas.width) firefly.vx *= -1;
                 if (firefly.y < 0 || firefly.y > canvas.height * 0.7) firefly.vy *= -1;
-
-                // Random direction changes
                 if (Math.random() < 0.02) {
                     firefly.vx += (Math.random() - 0.5) * 0.2;
                     firefly.vy += (Math.random() - 0.5) * 0.2;
                 }
             });
-
-            // particles
             for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].x += particles[i].vx;
-                particles[i].y += particles[i].vy;
-                particles[i].life -= 0.02;
-                particles[i].vy += 0.1;
+                particles[i].x += particles[i].vx; particles[i].y += particles[i].vy;
+                particles[i].life -= 0.02; particles[i].vy += 0.1;
                 if (particles[i].life <= 0) particles.splice(i, 1);
             }
-
-            // character animations
-            fher.idleAnim += 0.05;
-            fher.emoteTimer++;
-            jhaeivy.idleAnim += 0.05;
-
+            fher.idleAnim += 0.05; fher.emoteTimer++; jhaeivy.idleAnim += 0.05;
             jhaeivy.isMoving = false;
             let moved = false;
-
-            // MOVEMENT:
             if (keys['ArrowLeft'] && jhaeivy.x > 0) {
-                jhaeivy.x -= jhaeivy.speed;
-                jhaeivy.facing = 'left';
-                jhaeivy.isMoving = true;
-                moved = true;
+                jhaeivy.x -= jhaeivy.speed; jhaeivy.facing = 'left'; jhaeivy.isMoving = true; moved = true;
             }
             if (keys['ArrowRight'] && jhaeivy.x < canvas.width - jhaeivy.w) {
-                jhaeivy.x += jhaeivy.speed;
-                jhaeivy.facing = 'right';
-                jhaeivy.isMoving = true;
-                moved = true;
+                jhaeivy.x += jhaeivy.speed; jhaeivy.facing = 'right'; jhaeivy.isMoving = true; moved = true;
             }
-
             if (jhaeivy.isMoving) {
                 animationFrame++;
-                // Create footstep particles
                 if (animationFrame % 8 === 0) {
                     createParticle(jhaeivy.x + 16, jhaeivy.y + 48);
                 }
             }
         }
 
-        // --- CREDITS SYSTEM ---
         function initCredits() {
             creditsScroll = 0;
             creditsShapes = [];
@@ -590,28 +459,12 @@
         }
 
         let lastImageIndex = -1;
-        const usImages = [];
-        const totalImages = 31;
 
-        for (let i = 1; i <= totalImages; i++) {
-            if (i === 4 || i === 16) continue;
-
-            const img = new Image();
-            img.src = `pics/img${i}.jpg`; 
-
-            img.onload = () => {
-                usImages.push(img);
-            };
-
-            img.onerror = () => {
-                console.log(`⚠️ Skipped missing file: img${i}`);
-            };
-        }
-
-        let lastImageIndex = -1;
+        // FIXED: Re-added spawnRandomShape without the duplicate loading loop
         function spawnRandomShape() {
             let types = ['heart', 'flower', 'star', 'sparkle'];
 
+            // Only allow 'image' if we have loaded some
             if (usImages.length > 0) {
                  types.push('image', 'image', 'image');
             }
@@ -655,7 +508,6 @@
             ctx.globalAlpha = shape.opacity;
             ctx.translate(shape.x, shape.y);
             ctx.rotate(shape.rotation);
-
             const s = shape.size;
 
             if (shape.type === 'image') {
@@ -664,9 +516,7 @@
                     ctx.fillRect(-s/2 - 2, -s/2 - 2, s + 4, s + 4);
                     ctx.drawImage(shape.img, -s/2, -s/2, s, s);
                 }
-            }
-
-            else if (shape.type === 'heart') {
+            } else if (shape.type === 'heart') {
                 ctx.fillStyle = shape.color;
                 ctx.beginPath();
                 ctx.moveTo(0, s * 0.3);
@@ -695,7 +545,6 @@
                     const y = Math.sin(angle) * s * 0.5;
                     if (i === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
-
                     const innerAngle = angle + Math.PI / 5;
                     const ix = Math.cos(innerAngle) * s * 0.2;
                     const iy = Math.sin(innerAngle) * s * 0.2;
@@ -713,25 +562,16 @@
                 ctx.lineTo(0, s * 0.5);
                 ctx.stroke();
             }
-
             ctx.restore();
         }
 
         function updateCredits() {
             creditsScroll += 1;
-            if (Math.random() < 0.03) {
-                spawnRandomShape();
-            }
-
+            if (Math.random() < 0.03) spawnRandomShape();
             for (let i = creditsShapes.length - 1; i >= 0; i--) {
                 let shape = creditsShapes[i];
-
                 shape.rotation += shape.rotSpeed;
-
-                if (shape.isMovingUp) {
-                    shape.y -= shape.speed;
-                }
-
+                if (shape.isMovingUp) shape.y -= shape.speed;
                 if (creditsShapes.length > 60 && !shape.isMovingUp) {
                     creditsShapes.splice(i, 1);
                 } else if (shape.isMovingUp && shape.y < -150) {
@@ -747,14 +587,12 @@
             skyGrad.addColorStop(1, "#7a4c8a");
             ctx.fillStyle = skyGrad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = "#ffffff";
             stars.forEach(star => {
                 ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
                 ctx.fillRect(star.x, star.y, star.size, star.size);
             });
             ctx.globalAlpha = 1.0;
-
             ctx.fillStyle = "#b388eb";
             ctx.font = "bold 48px 'Courier New'";
             ctx.textAlign = "center";
@@ -763,24 +601,20 @@
             ctx.fillText("PROJECT:", canvas.width / 2, 150);
             ctx.fillText("HONEY BUTTER", canvas.width / 2, 210);
             ctx.shadowBlur = 0;
-
             ctx.fillStyle = "#ff99aa";
             ctx.font = "24px 'Courier New'";
             ctx.fillText("A Birthday Message", canvas.width / 2, 260);
-
             const pulse = Math.sin(Date.now() * 0.003) * 10;
             ctx.fillStyle = "#ff99aa";
             ctx.font = "40px Arial";
             ctx.fillText("♥", canvas.width / 2 - 60, 320 + pulse);
             ctx.fillText("♥", canvas.width / 2 + 60, 320 - pulse);
-
             ctx.fillStyle = "#dcdcdc";
             ctx.font = "20px 'Courier New'";
             const blink = Math.floor(Date.now() / 500) % 2;
             if (blink) {
                 ctx.fillText("Press SPACE to start", canvas.width / 2, 400);
             }
-
             ctx.textAlign = "left";
         }
 
@@ -790,14 +624,11 @@
             grad.addColorStop(1, "#2a1b3d");
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             creditsShapes.forEach(shape => drawShape(shape));
-
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
             ctx.shadowBlur = 10;
-
             const credits = [
                 { text: "PROJECT: HONEY BUTTER", size: 32, color: "#b388eb", offset: 0 },
                 { text: "", size: 20, color: "#fff", offset: 60 },
@@ -823,7 +654,6 @@
                 { text: "Thank you for being you", size: 20, color: "#dcdcdc", offset: 1200 },
                 { text: "♥ ♥ ♥", size: 40, color: "#ff99aa", offset: 1280 }
             ];
-
             credits.forEach(line => {
                 const y = canvas.height - creditsScroll + line.offset;
                 if (y > -50 && y < canvas.height + 50) {
@@ -832,9 +662,7 @@
                     ctx.fillText(line.text, canvas.width / 2, y);
                 }
             });
-
             ctx.shadowBlur = 0;
-
             if (creditsScroll > 2000) {
                 ctx.fillStyle = "#dcdcdc";
                 ctx.font = "18px 'Courier New'";
@@ -843,27 +671,21 @@
                     ctx.fillText("Press SPACE to return to menu", canvas.width / 2, canvas.height - 30);
                 }
             }
-
             ctx.textAlign = "left";
         }
 
         function drawScenery() {
-            // Sky gradient
             const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
             skyGrad.addColorStop(0, "#2a1b3d");
             skyGrad.addColorStop(0.6, "#4d3169");
             skyGrad.addColorStop(1, "#7a4c8a");
             ctx.fillStyle = skyGrad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Twinkling stars
             ctx.fillStyle = "#ffffff";
             stars.forEach(star => {
                 star.brightness += 0.02;
                 ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed + star.brightness) * 0.4;
                 ctx.fillRect(star.x, star.y, star.size, star.size);
-
-                // star twinkle effect
                 if (Math.random() < 0.001) {
                     ctx.globalAlpha = 1;
                     ctx.fillRect(star.x - 1, star.y, 1, 1);
@@ -871,8 +693,6 @@
                 }
             });
             ctx.globalAlpha = 1.0;
-
-            // shooting stars
             ctx.strokeStyle = "#ffffff";
             ctx.lineWidth = 2;
             shootingStars.forEach(ss => {
@@ -883,8 +703,6 @@
                  ctx.stroke();
             });
             ctx.globalAlpha = 1.0;
-
-            // Moon with glow
             const moonPulse = Math.sin(Date.now() * 0.002) * 5;
             ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
             ctx.shadowBlur = 30 + moonPulse;
@@ -893,8 +711,6 @@
             ctx.arc(550, 80, 35, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
-
-            // Moon craters
             ctx.fillStyle = "rgba(200, 200, 220, 0.3)";
             ctx.beginPath();
             ctx.arc(565, 70, 8, 0, Math.PI * 2);
@@ -902,8 +718,6 @@
             ctx.beginPath();
             ctx.arc(545, 85, 5, 0, Math.PI * 2);
             ctx.fill();
-
-            // Animated clouds
             ctx.fillStyle = "#6e4c85";
             clouds.forEach(c => {
                 const wobble = Math.sin(Date.now() * 0.001 + c.x) * 2;
@@ -916,8 +730,6 @@
                 ctx.fill();
                 ctx.globalAlpha = 1.0;
             });
-
-            // Fireflies
             fireflies.forEach(f => {
                 const glow = Math.sin(f.glowPhase) * 0.5 + 0.5;
                 ctx.shadowColor = `rgba(255, 255, 150, ${glow})`;
@@ -928,12 +740,8 @@
                 ctx.fill();
                 ctx.shadowBlur = 0;
             });
-
-            // Ground
             ctx.fillStyle = "#2a1b3d";
             ctx.fillRect(0, 400, canvas.width, 80);
-
-            // Swaying Grass
             ctx.fillStyle = "#3a2b4d";
             grassBlades.forEach(g => {
                  const sway = Math.sin(Date.now() * g.swaySpeed + g.swayPhase) * 3;
@@ -945,20 +753,14 @@
                  ctx.closePath();
                  ctx.fill();
             });
-
-            // Ground texture lines
             ctx.fillStyle = "rgba(122, 76, 138, 0.3)";
             for(let i=0; i<10; i++) {
                 ctx.fillRect(0, 410 + i*8, canvas.width, 2 + Math.random()*2);
             }
-
-            // Path shimmer
             ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
             ctx.fillRect(520, 410, 60, 4);
             ctx.fillRect(530, 420, 40, 3);
             ctx.fillRect(540, 430, 20, 2);
-
-            // Hills
             ctx.fillStyle = "#1a1a2e";
             ctx.beginPath();
             ctx.moveTo(0, 420);
@@ -968,8 +770,6 @@
             ctx.lineTo(640, 400);
             ctx.lineTo(640, 480);
             ctx.lineTo(0, 480);ctx.fill();
-
-            // Ground Line
             ctx.fillStyle = "#121220";
             ctx.fillRect(0, 400, canvas.width, 5);
         }
@@ -979,142 +779,39 @@
             const y = char.y;
             const isMoving = char.isMoving;
             const animOffset = isMoving ? Math.sin(animationFrame * 0.5) * 5 : 0;
-
             const skinColor = "#ffccaa";
             const hairColor = "#2a1b3d";
-
-            // DRAWING FHER
             if (type === 'fher') {
-                // Head
                 ctx.fillStyle = skinColor;
                 ctx.fillRect(x + 10, y, 12, 12);
-                // Hair (Short)
                 ctx.fillStyle = hairColor;
                 ctx.fillRect(x + 10, y, 12, 4);
-
-                // Torso (Long sleeve Green Shirt)
                 ctx.fillStyle = char.color;
                 ctx.fillRect(x + 6, y + 12, 20, 18);
-
-                // Arms (Long sleeves - same green as torso)
                 ctx.fillRect(x + 2, y + 12, 4, 14);
                 ctx.fillRect(x + 26, y + 12, 4, 14);
-
-                // Hands (Skin color tips)
                 ctx.fillStyle = skinColor;
                 ctx.fillRect(x + 2, y + 26, 4, 3);
                 ctx.fillRect(x + 26, y + 26, 4, 3);
-
-                // Legs (Gray Pants)
                 ctx.fillStyle = "#777777";
                 ctx.fillRect(x + 8 - (isMoving ? animOffset : 0), y + 30, 6, 18);
                 ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 6, 18);
             }
-
-            // DRAWING JHAEIVY
             if (type === 'jhaeivy') {
-                // Head
                 ctx.fillStyle = skinColor;
                 ctx.fillRect(x + 10, y, 12, 12);
-                // Hair (Long)
                 ctx.fillStyle = hairColor;
                 ctx.fillRect(x + 8, y, 16, 4);
                 ctx.fillRect(x + 8, y + 4, 4, 12);
                 ctx.fillRect(x + 20, y + 4, 4, 12);
-
-                // Torso (Pink Top)
                 ctx.fillStyle = char.color;
                 ctx.fillRect(x + 8, y + 12, 16, 18);
-
-                // Arms (Skin color)
                 ctx.fillStyle = skinColor;
                 ctx.fillRect(x + 4, y + 12, 4, 14);
                 ctx.fillRect(x + 24, y + 12, 4, 14);
-
-                // Legs (Black Pants)
                 ctx.fillStyle = "#111111";
                 ctx.fillRect(x + 10 - (isMoving ? animOffset : 0), y + 30, 4, 18);
                 ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 4, 18);
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // --- MENU STATE ---
-            if (gameState === 'menu') {
-                drawMenu();
-                return;
-            }
-
-            // --- CREDITS STATE ---
-            if (gameState === 'credits') {
-                updateCredits();
-                drawCredits();
-                return;
-            }
-
-            // --- PLAYING STATE ---
-            if (isTalking) {
-                // Background
-                if (talkingBgImg.complete && talkingBgImg.naturalWidth !== 0) {
-                    ctx.drawImage(talkingBgImg, 0, 0, canvas.width, canvas.height);
-                } else {
-                    ctx.fillStyle = "#2a1b3d"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-                }
-
-                // Stars overlay
-                ctx.fillStyle = "#fff";
-                stars.forEach(star => {
-                    ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
-                    ctx.fillRect(star.x, star.y, star.size, star.size);
-                });
-                ctx.globalAlpha = 1.0;
-
-                // Floating Hearts
-                hearts.forEach(h => {
-                    ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
-                    ctx.fillRect(h.x, h.y, h.size, h.size);
-                    ctx.fillRect(h.x-h.size, h.y-h.size, h.size, h.size);
-                    ctx.fillRect(h.x+h.size, h.y-h.size, h.size, h.size);
-                    ctx.fillRect(h.x, h.y-h.size*2, h.size, h.size);
-                });
-
-                const imgW = 200; const imgH = 250;
-                const speaker = script[scriptIndex].speaker;
-
-                // Async Animation Logic
-                const fherTick = Math.floor(Date.now() / 700) % 2 === 0;
-                const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
-                let fherCurrent = fherAnimating ? fherOpen : fherClosed;
-
-                if (fherClosed.complete) ctx.drawImage(fherCurrent, 50, 100, imgW, imgH);
-
-                const jhaeivyTick = Math.floor(Date.now() / 2000) % 2 === 0;
-                let jhaeivyCurrent = jhaeivyTick ? jhaeivyOpen : jhaeivyClosed;
-
-                if (jhaeivyClosed.complete) ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
-
-            } else {
-                // Exploration Mode
-                drawScenery();
-
-                // Draw Particles
-                particles.forEach(p => {
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.life;
-                    ctx.fillRect(p.x, p.y, p.size, p.size);
-                });
-                ctx.globalAlpha = 1.0;
-
-                drawPixelChar(fher, 'fher');
-                drawPixelChar(jhaeivy, 'jhaeivy');
-
-                // Nametags
-                ctx.fillStyle = "#fff";
-                ctx.font = "10px Courier New";
-                ctx.fillText("Fher", fher.x + 2, fher.y - 8);
-                ctx.fillText("Jhaeivy", jhaeivy.x - 2, jhaeivy.y - 8);
             }
         }
 
@@ -1134,14 +831,13 @@
 
         function bindTouch(btn, code) {
             btn.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Prevent scroll/zoom
+                e.preventDefault();
                 simulateKey(code, 'keydown');
             });
             btn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 simulateKey(code, 'keyup');
             });
-            // Mouse events for testing on desktop with mobile view enabled
             btn.addEventListener('mousedown', (e) => {
                 simulateKey(code, 'keydown');
             });
@@ -1165,10 +861,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
