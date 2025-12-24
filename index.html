@@ -1159,9 +1159,42 @@
 
         loop();
 
+        // === PASTE THIS AT THE VERY BOTTOM OF YOUR SCRIPT ===
+        // This puts a debug text on the top left of the screen
+        setInterval(() => {
+            const statusBox = document.getElementById('debug-status');
+            if (!statusBox) {
+                const div = document.createElement('div');
+                div.id = 'debug-status';
+                div.style.position = 'absolute';
+                div.style.top = '10px';
+                div.style.left = '10px';
+                div.style.color = 'yellow';
+                div.style.zIndex = '9999';
+                div.style.fontSize = '12px';
+                div.style.fontFamily = 'monospace';
+                div.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                document.body.appendChild(div);
+            }
+            document.getElementById('debug-status').innerHTML = 
+                "Loaded Images: " + usImages.length + " / " + (typeof totalImages !== 'undefined' ? totalImages : '??') +
+                "<br>Errors: " + (window.imgErrors || 0);
+        }, 1000);
+
+        // Add this to your loop error handler to count errors
+        window.imgErrors = 0;
+        // You need to update your loop's .onerror part slightly:
+        /*
+            img.onerror = () => {
+                console.error(...);
+                window.imgErrors++;  <-- Add this line to your existing loop error section
+            };
+        */
+
     </script>
 </body>
 </html>
+
 
 
 
