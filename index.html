@@ -220,27 +220,27 @@
         const jhaeivyClosed = new Image(); jhaeivyClosed.src = 'jhaeivy.png';
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
 
-        // --- GLOBAL IMAGE LOADING (SMART FALLBACK v2) ---
+        // --- GLOBAL IMAGE LOADING (SAFE MODE) ---
+        // 1. We create the list exactly ONCE.
         const usImages = [];
         const totalImages = 31;
 
+        // 2. We loop to find files. If found, add to list. If not, ignore.
         for (let i = 1; i <= totalImages; i++) {
-            // 1. Skip files you know don't exist
+            // Manually skip the ones you know are missing to save time
             if (i === 4 || i === 16 || i === 24) continue;
 
             const img = new Image();
-            
-            // 2. Start by trying the lowercase version
             img.src = `pics/img${i}.jpg`; 
 
-            // 3. Success Handler
             img.onload = () => {
                 usImages.push(img);
-                console.log(`✅ Loaded: ${img.src}`);
+                console.log(`✅ Loaded: pics/img${i}.jpg`);
             };
+
+            img.onerror = () => {
+                    console.log(`❌ Skipped completely missing file: img${this.indexNum}`);
             
-            img.onerror = () => {=
-                    console.log(`❌ Skipped completely missing file: img${i}`);
             };
         }
 
@@ -598,14 +598,12 @@
             }
 
             if (isTalking) {
-                // Background
                 if (talkingBgImg.complete && talkingBgImg.naturalWidth !== 0) {
                     ctx.drawImage(talkingBgImg, 0, 0, canvas.width, canvas.height);
                 } else {
                     ctx.fillStyle = "#2a1b3d"; ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
 
-                // Stars overlay
                 ctx.fillStyle = "#fff";
                 stars.forEach(star => {
                     ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
@@ -613,7 +611,6 @@
                 });
                 ctx.globalAlpha = 1.0;
 
-                // Floating Hearts
                 hearts.forEach(h => {
                     ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
                     ctx.fillRect(h.x, h.y, h.size, h.size);
@@ -625,7 +622,6 @@
                 const imgW = 200; const imgH = 250;
                 const speaker = script[scriptIndex].speaker;
 
-                // Async Animation Logic
                 const fherTick = Math.floor(Date.now() / 700) % 2 === 0;
                 const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
                 let fherCurrent = fherAnimating ? fherOpen : fherClosed;
@@ -638,21 +634,15 @@
                 if (jhaeivyClosed.complete) ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
 
             } else {
-                // Exploration Mode
                 drawScenery();
-
-                // Draw Particles
                 particles.forEach(p => {
                     ctx.fillStyle = p.color;
                     ctx.globalAlpha = p.life;
                     ctx.fillRect(p.x, p.y, p.size, p.size);
                 });
                 ctx.globalAlpha = 1.0;
-
                 drawPixelChar(fher, 'fher');
                 drawPixelChar(jhaeivy, 'jhaeivy');
-
-                // Nametags
                 ctx.fillStyle = "#fff";
                 ctx.font = "10px Courier New";
                 ctx.fillText("Fher", fher.x + 2, fher.y - 8);
@@ -754,6 +744,147 @@
             ctx.textAlign = "left";
         }
 
+        function drawScenery() {
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            skyGrad.addColorStop(0, "#2a1b3d");
+            skyGrad.addColorStop(0.6, "#4d3169");
+            skyGrad.addColorStop(1, "#7a4c8a");
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#ffffff";
+            stars.forEach(star => {
+                star.brightness += 0.02;
+                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed + star.brightness) * 0.4;
+                ctx.fillRect(star.x, star.y, star.size, star.size);
+                if (Math.random() < 0.001) {
+                    ctx.globalAlpha = 1;
+                    ctx.fillRect(star.x - 1, star.y, 1, 1);
+                    ctx.fillRect(star.x + star.size, star.y, 1, 1);
+                }
+            });
+            ctx.globalAlpha = 1.0;
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            shootingStars.forEach(ss => {
+                 ctx.globalAlpha = ss.life;
+                 ctx.beginPath();
+                 ctx.moveTo(ss.x, ss.y);
+                 ctx.lineTo(ss.x + ss.len, ss.y - 2);
+                 ctx.stroke();
+            });
+            ctx.globalAlpha = 1.0;
+            const moonPulse = Math.sin(Date.now() * 0.002) * 5;
+            ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
+            ctx.shadowBlur = 30 + moonPulse;
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(550, 80, 35, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = "rgba(200, 200, 220, 0.3)";
+            ctx.beginPath();
+            ctx.arc(565, 70, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(545, 85, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#6e4c85";
+            clouds.forEach(c => {
+                const wobble = Math.sin(Date.now() * 0.001 + c.x) * 2;
+                ctx.globalAlpha = 0.7;
+                ctx.beginPath();
+                ctx.roundRect(c.x, c.y + wobble, c.w, c.h, 20);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.roundRect(c.x+20, c.y-15 + wobble, c.w-30, c.h, 20);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            });
+            fireflies.forEach(f => {
+                const glow = Math.sin(f.glowPhase) * 0.5 + 0.5;
+                ctx.shadowColor = `rgba(255, 255, 150, ${glow})`;
+                ctx.shadowBlur = 15 * glow;
+                ctx.fillStyle = `rgba(255, 255, 150, ${glow})`;
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+            ctx.fillStyle = "#2a1b3d";
+            ctx.fillRect(0, 400, canvas.width, 80);
+            ctx.fillStyle = "#3a2b4d";
+            grassBlades.forEach(g => {
+                 const sway = Math.sin(Date.now() * g.swaySpeed + g.swayPhase) * 3;
+                 ctx.beginPath();
+                 ctx.moveTo(g.x, g.y);
+                 ctx.lineTo(g.x + 2, g.y);
+                 ctx.lineTo(g.x + 2 + sway, g.y - g.h);
+                 ctx.lineTo(g.x + sway, g.y - g.h);
+                 ctx.closePath();
+                 ctx.fill();
+            });
+            ctx.fillStyle = "rgba(122, 76, 138, 0.3)";
+            for(let i=0; i<10; i++) {
+                ctx.fillRect(0, 410 + i*8, canvas.width, 2 + Math.random()*2);
+            }
+            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.fillRect(520, 410, 60, 4);
+            ctx.fillRect(530, 420, 40, 3);
+            ctx.fillRect(540, 430, 20, 2);
+            ctx.fillStyle = "#1a1a2e";
+            ctx.beginPath();
+            ctx.moveTo(0, 420);
+            ctx.lineTo(150, 350);
+            ctx.lineTo(300, 380);
+            ctx.lineTo(450, 360);
+            ctx.lineTo(640, 400);
+            ctx.lineTo(640, 480);
+            ctx.lineTo(0, 480);ctx.fill();
+            ctx.fillStyle = "#121220";
+            ctx.fillRect(0, 400, canvas.width, 5);
+        }
+
+        function drawPixelChar(char, type) {
+            const x = char.x;
+            const y = char.y;
+            const isMoving = char.isMoving;
+            const animOffset = isMoving ? Math.sin(animationFrame * 0.5) * 5 : 0;
+            const skinColor = "#ffccaa";
+            const hairColor = "#2a1b3d";
+            if (type === 'fher') {
+                ctx.fillStyle = skinColor;
+                ctx.fillRect(x + 10, y, 12, 12);
+                ctx.fillStyle = hairColor;
+                ctx.fillRect(x + 10, y, 12, 4);
+                ctx.fillStyle = char.color;
+                ctx.fillRect(x + 6, y + 12, 20, 18);
+                ctx.fillRect(x + 2, y + 12, 4, 14);
+                ctx.fillRect(x + 26, y + 12, 4, 14);
+                ctx.fillStyle = skinColor;
+                ctx.fillRect(x + 2, y + 26, 4, 3);
+                ctx.fillRect(x + 26, y + 26, 4, 3);
+                ctx.fillStyle = "#777777";
+                ctx.fillRect(x + 8 - (isMoving ? animOffset : 0), y + 30, 6, 18);
+                ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 6, 18);
+            }
+            if (type === 'jhaeivy') {
+                ctx.fillStyle = skinColor;
+                ctx.fillRect(x + 10, y, 12, 12);
+                ctx.fillStyle = hairColor;
+                ctx.fillRect(x + 8, y, 16, 4);
+                ctx.fillRect(x + 8, y + 4, 4, 12);
+                ctx.fillRect(x + 20, y + 4, 4, 12);
+                ctx.fillStyle = char.color;
+                ctx.fillRect(x + 8, y + 12, 16, 18);
+                ctx.fillStyle = skinColor;
+                ctx.fillRect(x + 4, y + 12, 4, 14);
+                ctx.fillRect(x + 24, y + 12, 4, 14);
+                ctx.fillStyle = "#111111";
+                ctx.fillRect(x + 10 - (isMoving ? animOffset : 0), y + 30, 4, 18);
+                ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 4, 18);
+            }
+        }
+
         // --- MOBILE CONTROLS LOGIC ---
         function simulateKey(code, type) {
             const event = new KeyboardEvent(type, {
@@ -800,4 +931,5 @@
     </script>
 </body>
 </html>
+
 
