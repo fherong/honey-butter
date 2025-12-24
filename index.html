@@ -239,8 +239,13 @@
             };
 
             img.onerror = () => {
-                // This prevents the console from turning red if a file is missing
-                console.log(`⚠️ Skipped missing file: img${i}`);
+                if (this.src.includes('.jpg')) {
+                    console.log(`⚠️ img${this.indexNum}.jpg failed, trying uppercase .JPG...`);
+                    this.src = `pics/img${this.indexNum}.JPG`;
+                } 
+                else {
+                    console.log(`❌ Skipped completely missing file: img${this.indexNum}`);
+                }
             };
         }
 
@@ -931,3 +936,4 @@
     </script>
 </body>
 </html>
+
