@@ -43,9 +43,9 @@
             }
             #dialogue-box {
                 height: 75px !important;
-                bottom: 10px !important;
+                bottom: 25px !important;
                 padding: 8px 10px !important;
-                font-size: 10px !important;
+                font-size: 9px !important;
                 line-height: 1.3 !important;
                 border-width: 2px !important;
             }
@@ -73,7 +73,7 @@
             box-sizing: border-box;
             padding: 14px 18px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 18px;
+            font-size: 15px;
             line-height: 1.5;
             color: #fff;
             display: none;
@@ -191,7 +191,6 @@
         function startMusic() {
             if (!musicStarted) {
                 bgMusic.play().then(() => {
-                    console.log("Music started!");
                     musicStarted = true;
                     removeGlobalListeners();
                 }).catch(e => {
@@ -214,53 +213,93 @@
         const textContent = document.getElementById('text-content');
         const instructions = document.getElementById('instructions');
 
-        const talkingBgImg = new Image(); talkingBgImg.src = 'bg_talking.gif';
+        // --- IMAGES ---
+        const talkingBgImg = new Image(); talkingBgImg.src = 'talking_bg_5.gif';
         const fherClosed = new Image(); fherClosed.src = 'fher.png';
         const fherOpen = new Image();   fherOpen.src = 'fher_talking.png';
         const jhaeivyClosed = new Image(); jhaeivyClosed.src = 'jhaeivy.png';
         const jhaeivyOpen = new Image();   jhaeivyOpen.src = 'jhaeivy_talking.png';
+        const cityBg = new Image(); cityBg.src = 'talking_bg_1.png';
+        const talkBg1 = new Image(); talkBg1.src = 'talking_bg_1.png';
+        const talkBg3 = new Image(); talkBg3.src = 'talking_bg_1.png';
+        const talkBg5 = new Image(); talkBg5.src = 'talking_bg_5.gif';
+        const movieImg = new Image(); movieImg.src = 'conjuring.png';
+        const microBg = new Image(); microBg.src = 'micro_bg.png'; 
 
-        // --- GLOBAL IMAGE LOADING (SAFE MODE) ---
-        // 1. We create the list exactly ONCE.
         const usImages = [];
         const totalImages = 31;
-
-        // 2. We loop to find files. If found, add to list. If not, ignore.
         for (let i = 1; i <= totalImages; i++) {
-            // Manually skip the ones you know are missing to save time
             if (i === 4 || i === 16 || i === 24) continue;
-
             const img = new Image();
             img.src = `pics/img${i}.jpg`; 
-
-            img.onload = () => {
-                usImages.push(img);
-                console.log(`✅ Loaded: pics/img${i}.jpg`);
-            };
-
-            img.onerror = () => {
-                    console.log(`❌ Skipped completely missing file: img${this.indexNum}`);
-            };
+            img.onload = () => usImages.push(img);
         }
 
-        const script = [
-            { speaker: "Jhaeivy", text: "Hi, Fher!" },
-            { speaker: "Fher", text: "Jhaeivy... you made it." },
-            { speaker: "Fher", text: "It's beautiful out here tonight, isn't it?" },
-            { speaker: "Jhaeivy", text: "It is!" },
-            { speaker: "Fher", text: "Listen, today is your birthday..." },
-            { speaker: "Fher", text: "So, I wrote this just for you." },
-            { speaker: "Fher", text: "If loving you were an experiment,\nI'd run it infinite times..." },
-            { speaker: "Fher", text: "I'd record every variable,\nanalyze every reaction..." },
-            { speaker: "Fher", text: "and still find the constant:\nme, drawn to you, inevitably." },
-            { speaker: "Fher", text: "Your presence is my optimal medium,\nmy heart the agar..." },
-            { speaker: "Fher", text: "...your love the nutrient\nthat allows me to thrive." },
-            { speaker: "Fher", text: "If this is a chemical reaction,\nlet me dissolve..." },
-            { speaker: "Fher", text: "until all that remains\nis the part of me\nthat binds to you, always." },
-            { speaker: "Fher", text: "You're where my heart thrives." },
-            { speaker: "Fher", text: "Happy birthday, my honey butter. I Love You <3" }
-        ];
+        // --- STORY SCRIPTS ---
+        const levelScripts = {
+            1: [ // Seltsam
+                { speaker: "Jhaeivy", text: "Huh, I remember this place!" },
+                { speaker: "Fher", text: "Remember our first date?" },
+                { speaker: "Jhaeivy", text: "Yeah, of course I do!" },
+                { speaker: "Jhaeivy", text: "You were trying so hard to look cool, but you were so shy." },
+                { speaker: "Jhaeivy", text: "I distinctly remember you were sweating because you were so nervous and I had to carry the conversation." },
+                { speaker: "Fher", text: "Hey, I was under a lot of pressure! You looked amazing." },
+            ],
+            2: [ // Cinema
+                { speaker: "Fher", text: "The Conjuring... that brings back memories." },
+                { speaker: "Fher", text: "Remember when you actually ditched your friends to go watch it with me instead? You guys were all supposed to go together." },
+                { speaker: "Fher", text: "And I agreed to go, even though I am deathly scared of horror movies..." },
+                { speaker: "Fher", text: "but I didn't tell you that, I just agreed." },
+                { speaker: "Jhaeivy", text: "Oh, I remember." },
+                { speaker: "Jhaeivy", text: "Because you spent the entire film hiding behind your seat!" },
+                { speaker: "Fher", text: "I was... just getting comfortable." },
+                { speaker: "Jhaeivy", text: "Sure you were.." },
+                { speaker: "Fher", text: "Come on, let's head to the next memory before the Nun shows up." }
+            ],
+            3: [ // Hospital Street
+                { speaker: "Fher", text: "Waiting for the ride home..." },
+                { speaker: "Fher", text: "Just a random street next to a hospital." },
+                { speaker: "Fher", text: "The lights are dim, the air is cold, and it's late." },
+                { speaker: "Fher", text: "But this moment is warm." },
+                { speaker: "Fher", text: "Because this is where I first said it." },
+                { speaker: "Fher", text: "Jhaeivy... I love you." },
+                { speaker: "Fher", text: "Our ride is here. Let's go." }
+            ],
+            4: [ // Lab 
+                { speaker: "Jhaeivy", text: "Fher? Where did you go?" },
+                { speaker: "Jhaeivy", text: "Why am I a lab...?" },
+                { speaker: "Jhaeivy", text: "Wait, this microscope is glowing." },
+                { speaker: "Jhaeivy", text: "Let me take a closer look..." },
+                { speaker: "System", text: "*INITIALIZING VORTEX PROTOCOL*" },
+                { speaker: "Jhaeivy", text: "Whoa! What's happening?!" }
+            ],
+            5: [ // Purple Paradise
+                { speaker: "Jhaeivy", text: "Hi, Fher!" },
+                { speaker: "Fher", text: "Jhaeivy... you made it!" },
+                { speaker: "Fher", text: "From the rooftop date at Seltsam..." },
+                { speaker: "Fher", text: "To the midnight screening of The Conjuring..." },
+                { speaker: "Fher", text: "To the night where I first said I love you." },
+                { speaker: "Fher", text: "I built this path to remind you of us." },
+                { speaker: "Fher", text: "It's beautiful out here tonight, isn't it?" },
+                { speaker: "Jhaeivy", text: "It is!" },
+                { speaker: "Jhaeivy", text: "Where are we?" },
+                { speaker: "Fher", text: "In a pocket dimension I created for you." },
+                { speaker: "Fher", text: "Listen, since today is your birthday..." },
+                { speaker: "Fher", text: "I wrote this just for you." },
+                { speaker: "Fher", text: "If loving you were an experiment,\nI'd run it infinite times..." },
+                { speaker: "Fher", text: "I'd record every variable,\nanalyze every reaction..." },
+                { speaker: "Fher", text: "and still find the constant:\nme, drawn to you, inevitably." },
+                { speaker: "Fher", text: "Your presence is my optimal medium,\nmy heart the agar..." },
+                { speaker: "Fher", text: "...your love the nutrient\nthat allows me to thrive." },
+                { speaker: "Fher", text: "If this is a chemical reaction,\nlet me dissolve..." },
+                { speaker: "Fher", text: "until all that remains\nis the part of me\nthat binds to you, always." },
+                { speaker: "Fher", text: "You're where my heart thrives." },
+                { speaker: "Fher", text: "Happy birthday, my honey butter. I Love You <3" }
+            ]
+        };
 
+        // --- GAME STATE ---
+        let currentLevel = 1;
         let scriptIndex = 0;
         let isTalking = false;
         let isTyping = false;
@@ -268,16 +307,58 @@
         let typingInterval;
         let animationFrame = 0;
         let hearts = [];
-
         let gameState = 'menu';
-        let creditsScroll = 0;
-        let creditsShapes = [];
+        let dialogueCompleted = false; 
+        
+        // --- LEVEL 4 ANIMATION STATE ---
+        let vortexState = {
+            active: false,
+            phase: 'idle',
+            timer: 0,
+            scale: 1,
+            rotation: 0
+        };
+        let heartBacterias = [];
 
+        // --- FLOOR LEVEL ---
+        const FLOOR_Y = 360; 
+
+        // --- LEVEL ASSETS & OBJECTS ---
+        const portals = {
+            1: { x: 550, y: 320, w: 50, h: 80, active: false }, 
+            2: { x: 580, y: 340, w: 40, h: 80, active: false }, 
+            3: { x: 580, y: 380, w: 60, h: 60, active: false }, 
+            4: { x: 300, y: 340, w: 60, h: 60, active: false }, 
+            5: { x: -999, y: -999, w: 0, h: 0, active: false } 
+        };
+
+        // --- CHARACTERS ---
+        const fher = { x: 400, y: FLOOR_Y, w: 32, h: 48, color: '#2e8b57', facing: 'left', idleAnim: 0 };
+        const jhaeivy = { x: 50, y: FLOOR_Y, w: 32, h: 48, color: '#ff99aa', speed: 3, facing: 'right', isMoving: false, idleAnim: 0 };
+        const keys = {};
+
+        // --- NPCS for Seltsam ---
+        let seltsamNPCs = [];
+        function initSeltsamNPCs() {
+            seltsamNPCs = [];
+            for(let i=0; i<15; i++) {
+                seltsamNPCs.push({
+                    x: 50 + Math.random() * 450, 
+                    y: FLOOR_Y,
+                    color: `hsl(${Math.random()*360}, 60%, 50%)`,
+                    hairStyle: Math.floor(Math.random()*2),
+                    bobOffset: Math.random() * 10
+                });
+            }
+        }
+
+        // --- PARTICLES & FX ---
         let particles = [];
         let fireflies = [];
         let shootingStars = [];
         let grassBlades = [];
 
+        // Initialize reusable FX
         const stars = Array.from({length: 100}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height * 0.6,
@@ -290,11 +371,6 @@
             {x: 450, y: 120, w: 140, h: 50, speed: 0.15},
             {x: 250, y: 50, w: 80, h: 30, speed: 0.08}
         ];
-
-        const fher = { x: 480, y: 360, w: 32, h: 48, color: '#2e8b57', facing: 'left', idleAnim: 0, emoteTimer: 0 };
-        const jhaeivy = { x: 100, y: 360, w: 32, h: 48, color: '#ff99aa', speed: 2, facing: 'right', isMoving: false, idleAnim: 0 };
-        const keys = {};
-
         for (let i = 0; i < 15; i++) {
             fireflies.push({
                 x: Math.random() * canvas.width,
@@ -303,44 +379,126 @@
                 brightness: Math.random(), glowPhase: Math.random() * Math.PI * 2
             });
         }
-
         for (let i = 0; i < canvas.width; i += 4) {
             grassBlades.push({
                 x: i, y: 400, h: 4 + Math.random() * 6,
                 swaySpeed: 0.001 + Math.random() * 0.002, swayPhase: Math.random() * Math.PI * 2
             });
         }
+        
+        // Heart Bacterias for Level 4
+        function initHeartBacterias() {
+            heartBacterias = [];
+            for(let i=0; i<15; i++) {
+                heartBacterias.push({
+                    x: Math.random() * 640,
+                    y: Math.random() * 480,
+                    size: 15 + Math.random() * 20,
+                    color: `hsla(${330 + Math.random()*40}, 80%, 60%, 0.8)`,
+                    vx: (Math.random()-0.5) * 2,
+                    vy: (Math.random()-0.5) * 2,
+                    pulse: Math.random() * 6.28
+                });
+            }
+        }
 
+        // --- INPUTS ---
         window.addEventListener('keydown', (e) => {
             keys[e.code] = true;
             if (e.code === 'Space') {
-                if (gameState === 'menu') {
-                    gameState = 'playing';
-                    instructions.innerHTML = 'Use <strong>Arrow Keys</strong> to move Jhaeivy.<br>Walk to Fher and press <strong>SPACE</strong>.';
-                } else if (gameState === 'playing') {
-                    if (!isTalking) checkInteraction();
-                    else nextLine();
-                } else if (gameState === 'credits' && creditsScroll > 2000) {
-                    gameState = 'menu';
-                    creditsScroll = 0;
-                    scriptIndex = 0;
-                    creditsShapes = [];
-                    hearts = [];
-                    jhaeivy.x = 100;
-                    jhaeivy.y = 360;
-                    instructions.innerHTML = 'Press <strong>SPACE</strong> to start';
-                }
+                handleInteraction();
             }
         });
         window.addEventListener('keyup', (e) => { keys[e.code] = false; });
 
-        function checkInteraction() {
-            const dist = Math.hypot(fher.x - jhaeivy.x, fher.y - jhaeivy.y);
-            if (dist < 80) {
-                isTalking = true;
-                dBox.style.display = 'block';
-                typeLine();
+        function handleInteraction() {
+            if (gameState === 'menu') {
+                startGame();
+            } else if (gameState === 'playing') {
+                if(vortexState.active) return; 
+                if (isTalking) {
+                    nextLine();
+                } else {
+                    checkLevelInteraction();
+                }
+            } else if (gameState === 'credits' && creditsScroll > 2000) {
+                resetGame();
             }
+        }
+
+        function startGame() {
+            gameState = 'playing';
+            currentLevel = 1;
+            resetLevelState();
+        }
+
+        function resetGame() {
+            gameState = 'menu';
+            creditsScroll = 0;
+            currentLevel = 1;
+            instructions.innerHTML = 'Press <strong>SPACE</strong> to start';
+        }
+
+        function resetLevelState() {
+            jhaeivy.x = 30; 
+            scriptIndex = 0;
+            isTalking = false;
+            dialogueCompleted = false;
+            portals[currentLevel].active = false;
+            
+            // Level specific adjustments
+            if (currentLevel === 1) { // Seltsam
+                fher.x = 520; fher.y = FLOOR_Y; jhaeivy.y = FLOOR_Y;
+                initSeltsamNPCs();
+                instructions.innerHTML = "Level 1: Seltsam. Find Fher.";
+            } else if (currentLevel === 2) { // Cinema
+                fher.x = 250; fher.y = FLOOR_Y;
+                jhaeivy.x = 20; jhaeivy.y = FLOOR_Y;
+                instructions.innerHTML = "Level 2: The Cinema.";
+            } else if (currentLevel === 3) { // Hospital
+                fher.x = 320; fher.y = FLOOR_Y; 
+                jhaeivy.x = 50; jhaeivy.y = FLOOR_Y;
+                instructions.innerHTML = "Level 3: The Hospital.";
+            } else if (currentLevel === 4) { // Lab
+                fher.x = -100; // Fher missing
+                jhaeivy.x = 50; jhaeivy.y = FLOOR_Y;
+                vortexState = { active: false, phase: 'idle', timer: 0, scale: 1, rotation: 0 };
+                instructions.innerHTML = "Level 4: The Lab. Look for clues.";
+            } else if (currentLevel === 5) { // Purple Paradise
+                fher.x = 480; fher.y = 360;
+                jhaeivy.x = 100; jhaeivy.y = 360;
+                instructions.innerHTML = "Level 5: Purple Paradise.";
+            }
+        }
+
+        function checkLevelInteraction() {
+            if (currentLevel !== 4) {
+                const distFher = Math.hypot(fher.x - jhaeivy.x, fher.y - jhaeivy.y);
+                if (distFher < 80 && !dialogueCompleted) {
+                    startDialogue();
+                    return;
+                }
+            } else {
+                const distScope = Math.hypot(320 - jhaeivy.x, 360 - jhaeivy.y);
+                if (distScope < 60 && !dialogueCompleted) {
+                    startDialogue();
+                    return;
+                }
+            }
+
+            if (dialogueCompleted && !vortexState.active) {
+                const p = portals[currentLevel];
+                if (jhaeivy.x < p.x + p.w && jhaeivy.x + jhaeivy.w > p.x &&
+                    jhaeivy.y < p.y + p.h && jhaeivy.y + jhaeivy.h > p.y) {
+                    nextLevel();
+                }
+            }
+        }
+
+        function startDialogue() {
+            isTalking = true;
+            dBox.style.display = 'block';
+            typeLine();
         }
 
         function typeLine() {
@@ -348,10 +506,18 @@
             charIndex = 0;
             clearInterval(typingInterval);
             isTyping = true;
-            const currentLine = script[scriptIndex].text;
-            const speaker = script[scriptIndex].speaker;
-            const nameColor = speaker === 'Fher' ? '#88ffcc' : '#ffbbcc';
+            
+            const lines = levelScripts[currentLevel];
+            const currentLine = lines[scriptIndex].text;
+            const speaker = lines[scriptIndex].speaker;
+            
+            let nameColor = '#fff';
+            if (speaker === 'Fher') nameColor = '#88ffcc';
+            if (speaker === 'Jhaeivy') nameColor = '#ffbbcc';
+            if (speaker === 'System') nameColor = '#ffff00';
+
             textContent.innerHTML = `<span class="name-tag" style="color:${nameColor};">${speaker}</span>`;
+            
             typingInterval = setInterval(() => {
                 textContent.innerHTML += currentLine.charAt(charIndex);
                 charIndex++;
@@ -359,27 +525,65 @@
                     clearInterval(typingInterval);
                     isTyping = false;
                 }
-            }, 100);
+            }, 50); 
         }
 
         function nextLine() {
-            if (charIndex < script[scriptIndex].text.length) {
-                const speaker = script[scriptIndex].speaker;
-                const nameColor = speaker === 'Fher' ? '#88ffcc' : '#ffbbcc';
-                textContent.innerHTML = `<span class="name-tag" style="color:${nameColor};">${speaker}</span>` + script[scriptIndex].text;
-                charIndex = script[scriptIndex].text.length;
+            const lines = levelScripts[currentLevel];
+            if (charIndex < lines[scriptIndex].text.length) {
+                // Complete current line
+                const speaker = lines[scriptIndex].speaker;
+                let nameColor = '#fff';
+                if (speaker === 'Fher') nameColor = '#88ffcc';
+                if (speaker === 'Jhaeivy') nameColor = '#ffbbcc';
+                if (speaker === 'System') nameColor = '#ffff00';
+                
+                textContent.innerHTML = `<span class="name-tag" style="color:${nameColor};">${speaker}</span>` + lines[scriptIndex].text;
+                charIndex = lines[scriptIndex].text.length;
                 clearInterval(typingInterval);
                 isTyping = false;
                 return;
             }
+
             scriptIndex++;
-            if (scriptIndex < script.length) {
+            if (scriptIndex < lines.length) {
                 typeLine();
             } else {
+                // End of dialogue
                 isTalking = false;
                 dBox.style.display = 'none';
+                dialogueCompleted = true;
+                
+                if (currentLevel < 4) {
+                    portals[currentLevel].active = true;
+                    instructions.innerHTML = "Go to the Exit ->";
+                } else if (currentLevel === 4) {
+                    // TRIGGER VORTEX ANIMATION
+                    startVortexSequence();
+                } else {
+                    gameState = 'credits';
+                    initCredits();
+                }
+            }
+        }
+
+        function startVortexSequence() {
+            vortexState.active = true;
+            vortexState.phase = 'sucking';
+            vortexState.timer = 0;
+            instructions.innerHTML = "";
+        }
+
+        function nextLevel() {
+            vortexState.active = false; 
+            vortexState.phase = 'idle';
+
+            currentLevel++;
+            if (currentLevel > 5) {
                 gameState = 'credits';
                 initCredits();
+            } else {
+                resetLevelState();
             }
         }
 
@@ -390,8 +594,17 @@
             });
         }
 
+        // --- MAIN UPDATE LOOP ---
         function update() {
             if (gameState === 'menu' || gameState === 'credits') return;
+            
+            // Level 4 Animation Loop
+            if (currentLevel === 4 && vortexState.active) {
+                updateVortex();
+                return;
+            }
+
+            // Talking update (hearts)
             if (isTalking) {
                 if (Math.random() < 0.05) {
                     hearts.push({
@@ -406,11 +619,84 @@
                 }
                 return;
             }
-            clouds.forEach(cloud => {
+
+            // Movement
+            fher.idleAnim += 0.05; 
+            jhaeivy.idleAnim += 0.05;
+            jhaeivy.isMoving = false;
+            
+            if (keys['ArrowLeft'] && jhaeivy.x > 0) {
+                jhaeivy.x -= jhaeivy.speed; jhaeivy.facing = 'left'; jhaeivy.isMoving = true;
+            }
+            if (keys['ArrowRight'] && jhaeivy.x < canvas.width - jhaeivy.w) {
+                jhaeivy.x += jhaeivy.speed; jhaeivy.facing = 'right'; jhaeivy.isMoving = true;
+            }
+            
+            if (jhaeivy.isMoving) {
+                animationFrame++;
+                if (animationFrame % 8 === 0) {
+                    createParticle(jhaeivy.x + 16, jhaeivy.y + 48);
+                }
+            }
+
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.life -= 0.05;
+                if(p.life <= 0) particles.splice(i, 1);
+            });
+
+            if (currentLevel === 5) {
+                updateHilltopFX();
+            }
+        }
+
+        function updateVortex() {
+            vortexState.timer++;
+
+            if (vortexState.phase === 'sucking') {
+                // Move Jhaeivy to microscope center (320, 340)
+                let dx = 320 - jhaeivy.x;
+                let dy = 340 - jhaeivy.y;
+                jhaeivy.x += dx * 0.05;
+                jhaeivy.y += dy * 0.05;
+                
+                // Spin
+                vortexState.rotation += 0.2 + (vortexState.timer * 0.01);
+                
+                // CHANGED: Increased from 0.003 to 0.007 (A balanced speed)
+                vortexState.scale -= 0.007; 
+                
+                if (vortexState.scale <= 0) {
+                    vortexState.scale = 0;
+                    vortexState.phase = 'dimension';
+                    vortexState.timer = 0;
+                    initHeartBacterias(); // Init dimension hearts
+                }
+            } else if (vortexState.phase === 'dimension') {
+                // Update heart bacterias
+                heartBacterias.forEach(c => {
+                    c.x += c.vx; c.y += c.vy;
+                    c.pulse += 0.1;
+                    if(c.x < 0 || c.x > 640) c.vx *= -1;
+                    if(c.y < 0 || c.y > 480) c.vy *= -1;
+                });
+                
+                if (vortexState.timer > 150) { // 5 seconds
+                    nextLevel();
+                }
+            }
+        }
+        
+        function updateHilltopFX() {
+             clouds.forEach(cloud => {
                 cloud.x += cloud.speed;
                 if (cloud.x > canvas.width) cloud.x = -cloud.w;
             });
-            if (Math.random() < 0.003) {
+             fireflies.forEach(firefly => {
+                firefly.x += firefly.vx; firefly.y += firefly.vy; firefly.glowPhase += 0.05;
+                if (firefly.x < 0 || firefly.x > canvas.width) firefly.vx *= -1;
+                if (firefly.y < 0 || firefly.y > canvas.height * 0.7) firefly.vy *= -1;
+            });
+             if (Math.random() < 0.003) {
                  shootingStars.push({
                      x: Math.random() * canvas.width + 100, y: Math.random() * canvas.height / 3,
                      vx: -4 - Math.random() * 2, vy: 1 + Math.random(), len: 30 + Math.random() * 20, life: 1.0
@@ -421,167 +707,10 @@
                 ss.x += ss.vx; ss.y += ss.vy; ss.life -= 0.015;
                 if (ss.life <= 0 || ss.x + ss.len < 0) shootingStars.splice(i, 1);
             }
-            fireflies.forEach(firefly => {
-                firefly.x += firefly.vx; firefly.y += firefly.vy; firefly.glowPhase += 0.05;
-                if (firefly.x < 0 || firefly.x > canvas.width) firefly.vx *= -1;
-                if (firefly.y < 0 || firefly.y > canvas.height * 0.7) firefly.vy *= -1;
-                if (Math.random() < 0.02) {
-                    firefly.vx += (Math.random() - 0.5) * 0.2;
-                    firefly.vy += (Math.random() - 0.5) * 0.2;
-                }
-            });
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].x += particles[i].vx; particles[i].y += particles[i].vy;
-                particles[i].life -= 0.02; particles[i].vy += 0.1;
-                if (particles[i].life <= 0) particles.splice(i, 1);
-            }
-            fher.idleAnim += 0.05; fher.emoteTimer++; jhaeivy.idleAnim += 0.05;
-            jhaeivy.isMoving = false;
-            let moved = false;
-            if (keys['ArrowLeft'] && jhaeivy.x > 0) {
-                jhaeivy.x -= jhaeivy.speed; jhaeivy.facing = 'left'; jhaeivy.isMoving = true; moved = true;
-            }
-            if (keys['ArrowRight'] && jhaeivy.x < canvas.width - jhaeivy.w) {
-                jhaeivy.x += jhaeivy.speed; jhaeivy.facing = 'right'; jhaeivy.isMoving = true; moved = true;
-            }
-            if (jhaeivy.isMoving) {
-                animationFrame++;
-                if (animationFrame % 8 === 0) {
-                    createParticle(jhaeivy.x + 16, jhaeivy.y + 48);
-                }
-            }
         }
 
-        function initCredits() {
-            creditsScroll = 0;
-            creditsShapes = [];
-            for (let i = 0; i < 30; i++) {
-                spawnRandomShape();
-            }
-        }
+        // --- DRAWING FUNCTIONS ---
 
-        let lastImageIndex = -1;
-
-        // --- FIXED SPAWN FUNCTION: Uses the global usImages list ---
-        function spawnRandomShape() {
-            let types = ['heart', 'flower', 'star', 'sparkle'];
-
-            if (usImages.length > 0) {
-                 types.push('image', 'image', 'image');
-            }
-
-            const type = types[Math.floor(Math.random() * types.length)];
-
-            const shape = {
-                type: type,
-                x: 40 + Math.random() * (canvas.width - 80),
-                rotation: Math.random() * Math.PI * 2,
-                rotSpeed: (Math.random() - 0.5) * 0.02,
-            };
-
-            if (type === 'image') {
-                shape.y = canvas.height + 50 + Math.random() * 150;
-                shape.speed = 0.35 + Math.random() * 0.7;
-
-                let index = Math.floor(Math.random() * usImages.length);
-                if (usImages.length > 1 && index === lastImageIndex) {
-                    index = (index + 1) % usImages.length;
-                }
-                lastImageIndex = index;
-
-                shape.img = usImages[index];
-                shape.size = 30 + Math.random() * 30;
-                shape.opacity = 0.8 + Math.random() * 0.2;
-                shape.isMovingUp = true;
-            } else {
-                shape.y = Math.random() * canvas.height;
-                shape.size = 10 + Math.random() * 20;
-                shape.opacity = 0.3 + Math.random() * 0.5;
-                shape.color = ['#ff99aa', '#ffccaa', '#b388eb', '#88ffcc'][Math.floor(Math.random() * 4)];
-                shape.isMovingUp = false;
-            }
-
-            creditsShapes.push(shape);
-        }
-
-        function drawShape(shape) {
-            ctx.save();
-            ctx.globalAlpha = shape.opacity;
-            ctx.translate(shape.x, shape.y);
-            ctx.rotate(shape.rotation);
-            const s = shape.size;
-
-            if (shape.type === 'image') {
-                if(shape.img.complete) {
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fillRect(-s/2 - 2, -s/2 - 2, s + 4, s + 4);
-                    ctx.drawImage(shape.img, -s/2, -s/2, s, s);
-                }
-            } else if (shape.type === 'heart') {
-                ctx.fillStyle = shape.color;
-                ctx.beginPath();
-                ctx.moveTo(0, s * 0.3);
-                ctx.bezierCurveTo(-s * 0.5, -s * 0.3, -s * 0.8, s * 0.2, 0, s * 0.8);
-                ctx.bezierCurveTo(s * 0.8, s * 0.2, s * 0.5, -s * 0.3, 0, s * 0.3);
-                ctx.fill();
-            } else if (shape.type === 'flower') {
-                ctx.fillStyle = shape.color;
-                for (let i = 0; i < 5; i++) {
-                    ctx.beginPath();
-                    ctx.arc(Math.cos(i * Math.PI * 2 / 5) * s * 0.4,
-                           Math.sin(i * Math.PI * 2 / 5) * s * 0.4,
-                           s * 0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.arc(0, 0, s * 0.2, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (shape.type === 'star') {
-                ctx.fillStyle = shape.color;
-                ctx.beginPath();
-                for (let i = 0; i < 5; i++) {
-                    const angle = (i * Math.PI * 2) / 5 - Math.PI / 2;
-                    const x = Math.cos(angle) * s * 0.5;
-                    const y = Math.sin(angle) * s * 0.5;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                    const innerAngle = angle + Math.PI / 5;
-                    const ix = Math.cos(innerAngle) * s * 0.2;
-                    const iy = Math.sin(innerAngle) * s * 0.2;
-                    ctx.lineTo(ix, iy);
-                }
-                ctx.closePath();
-                ctx.fill();
-            } else if (shape.type === 'sparkle') {
-                ctx.strokeStyle = shape.color;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(-s * 0.5, 0);
-                ctx.lineTo(s * 0.5, 0);
-                ctx.moveTo(0, -s * 0.5);
-                ctx.lineTo(0, s * 0.5);
-                ctx.stroke();
-            }
-            ctx.restore();
-        }
-
-        function updateCredits() {
-            creditsScroll += 0.5;
-            if (Math.random() < 0.03) spawnRandomShape();
-            for (let i = creditsShapes.length - 1; i >= 0; i--) {
-                let shape = creditsShapes[i];
-                shape.rotation += shape.rotSpeed;
-                if (shape.isMovingUp) shape.y -= shape.speed;
-                if (creditsShapes.length > 60 && !shape.isMovingUp) {
-                    creditsShapes.splice(i, 1);
-                } else if (shape.isMovingUp && shape.y < -150) {
-                    creditsShapes.splice(i, 1);
-                }
-            }
-        }
-
-        // --- DRAW FUNCTION ---
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -597,59 +726,737 @@
             }
 
             if (isTalking) {
-                if (talkingBgImg.complete && talkingBgImg.naturalWidth !== 0) {
-                    ctx.drawImage(talkingBgImg, 0, 0, canvas.width, canvas.height);
-                } else {
-                    ctx.fillStyle = "#2a1b3d"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-                }
-
-                ctx.fillStyle = "#fff";
-                stars.forEach(star => {
-                    ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
-                    ctx.fillRect(star.x, star.y, star.size, star.size);
-                });
-                ctx.globalAlpha = 1.0;
-
-                hearts.forEach(h => {
-                    ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
-                    ctx.fillRect(h.x, h.y, h.size, h.size);
-                    ctx.fillRect(h.x-h.size, h.y-h.size, h.size, h.size);
-                    ctx.fillRect(h.x+h.size, h.y-h.size, h.size, h.size);
-                    ctx.fillRect(h.x, h.y-h.size*2, h.size, h.size);
-                });
-
-                const imgW = 200; const imgH = 250;
-                const speaker = script[scriptIndex].speaker;
-
-                const fherTick = Math.floor(Date.now() / 700) % 2 === 0;
-                const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
-                let fherCurrent = fherAnimating ? fherOpen : fherClosed;
-
-                if (fherClosed.complete) ctx.drawImage(fherCurrent, 50, 100, imgW, imgH);
-
-                const jhaeivyTick = Math.floor(Date.now() / 2000) % 2 === 0;
-                let jhaeivyCurrent = jhaeivyTick ? jhaeivyOpen : jhaeivyClosed;
-
-                if (jhaeivyClosed.complete) ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
-
+                drawTalkingScene();
             } else {
-                drawScenery();
-                particles.forEach(p => {
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.life;
-                    ctx.fillRect(p.x, p.y, p.size, p.size);
-                });
-                ctx.globalAlpha = 1.0;
-                drawPixelChar(fher, 'fher');
-                drawPixelChar(jhaeivy, 'jhaeivy');
-                ctx.fillStyle = "#fff";
-                ctx.font = "10px Courier New";
-                ctx.fillText("Fher", fher.x + 2, fher.y - 8);
-                ctx.fillText("Jhaeivy", jhaeivy.x - 2, jhaeivy.y - 8);
+                if (vortexState.phase === 'dimension') {
+                    drawMicroDimension();
+                } else {
+                    drawLevel();
+                }
             }
         }
 
-        function drawMenu() {
+        function drawLevel() {
+            if (currentLevel === 1) drawSeltsam();
+            else if (currentLevel === 2) drawCinema();
+            else if (currentLevel === 3) drawHospitalStreet();
+            else if (currentLevel === 4) drawLab();
+            else if (currentLevel === 5) drawHilltop(); 
+
+            // Draw Characters Logic
+            const shouldDrawCharacters = (currentLevel !== 4) || (currentLevel === 4 && vortexState.phase === 'sucking') || (currentLevel === 4 && !vortexState.active);
+            
+            if (shouldDrawCharacters) {
+                if(currentLevel !== 4) drawPixelChar(fher, 'fher');
+                
+                if (vortexState.phase === 'sucking') {
+                    let floatUp = (1 - vortexState.scale) * 60;
+
+                    ctx.save();
+                    ctx.translate(jhaeivy.x + 16, (jhaeivy.y + 24) - floatUp);
+                    ctx.rotate(vortexState.rotation);
+                    ctx.scale(vortexState.scale, vortexState.scale);
+                    ctx.translate(-(jhaeivy.x + 16), -(jhaeivy.y + 24));
+                    drawPixelChar(jhaeivy, 'jhaeivy');
+                    ctx.restore();
+                } else {
+                    if (currentLevel === 4) {
+                        // --- SCALE JHAEIVY FOR LAB ---
+                        ctx.save();
+                        ctx.translate(jhaeivy.x + 16, jhaeivy.y + 48); 
+                        ctx.scale(2, 2);
+                        ctx.translate(-(jhaeivy.x + 20), -(jhaeivy.y + 52));
+                        drawPixelChar(jhaeivy, 'jhaeivy');
+                        ctx.restore();
+                    } else {
+                        drawPixelChar(jhaeivy, 'jhaeivy');
+                    }
+                }
+            }
+
+            // Names
+            if (vortexState.phase !== 'dimension') {
+                ctx.fillStyle = "#fff";
+                ctx.font = "10px Courier New";
+                
+                if (currentLevel !== 4) ctx.fillText("Fher", fher.x + 2, fher.y - 8);
+                
+                let nameYOffset = (currentLevel === 4) ? 60 : 8; 
+                
+                if (vortexState.phase !== 'sucking') {
+                    ctx.fillText("Jhaeivy", jhaeivy.x - 2, jhaeivy.y - nameYOffset);
+                }
+            }
+
+            // Portal Hint
+            if (dialogueCompleted && currentLevel < 4 && !vortexState.active) {
+                const p = portals[currentLevel];
+                if (Math.floor(Date.now() / 300) % 2 === 0) {
+                    ctx.fillStyle = "#ffff00";
+                    ctx.fillText("GO HERE", p.x, p.y - 10);
+                    ctx.strokeStyle = "#ffff00";
+                    ctx.strokeRect(p.x, p.y, p.w, p.h);
+                }
+            }
+        }
+
+            // Names
+            if (vortexState.phase !== 'dimension') {
+                ctx.fillStyle = "#fff";
+                ctx.font = "10px Courier New";
+                if (currentLevel !== 4) ctx.fillText("Fher", fher.x + 2, fher.y - 8);
+                if (vortexState.phase !== 'sucking') ctx.fillText("Jhaeivy", jhaeivy.x - 2, jhaeivy.y - 8);
+            }
+
+            // Portal Hint
+            if (dialogueCompleted && currentLevel < 4 && !vortexState.active) {
+                const p = portals[currentLevel];
+                if (Math.floor(Date.now() / 300) % 2 === 0) {
+                    ctx.fillStyle = "#ffff00";
+                    ctx.fillText("GO HERE", p.x, p.y - 10);
+                    ctx.strokeStyle = "#ffff00";
+                    ctx.strokeRect(p.x, p.y, p.w, p.h);
+                }
+            }
+        
+
+        // --- LEVEL 1: SELTSAM ROOFTOP ---
+        function drawSeltsam() {
+            if (cityBg.complete && cityBg.naturalWidth !== 0) {
+                ctx.drawImage(cityBg, 0, 0, 640, 480);
+            } else {
+                const grad = ctx.createLinearGradient(0,0,0,480);
+                grad.addColorStop(0, "#0a0a1a"); grad.addColorStop(1, "#1a1a2e");
+                ctx.fillStyle = grad; ctx.fillRect(0,0,640,480);
+            }
+            
+            ctx.fillStyle = "rgba(20, 10, 30, 0.4)";
+            ctx.fillRect(0,0,640,480);
+
+            // 2. Greenhouse Structure
+            ctx.beginPath();
+            ctx.moveTo(100, 390); ctx.lineTo(100, 100); ctx.lineTo(540, 100); ctx.lineTo(540, 390);
+            ctx.moveTo(100, 100); ctx.lineTo(320, 40); ctx.lineTo(540, 100);
+            
+            ctx.fillStyle = "#1a1a25"; 
+            ctx.fill();
+            
+            // Frame Outline
+            ctx.strokeStyle = "#444";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // --- 3. THE BAR INSIDE ---
+            // shelves back wall
+            ctx.fillStyle = "#110e0e";
+            ctx.fillRect(180, 180, 280, 120);
+
+            // Bottles on shelves
+            for(let r=0; r<3; r++) {
+                // Shelf line
+                ctx.fillStyle = "#5d4037"; 
+                ctx.fillRect(180, 220 + r*35, 280, 5);
+                // Bottles
+                for(let c=0; c<15; c++) {
+                    ctx.fillStyle = `hsl(${Math.random()*360}, 70%, 50%)`; // Random colored drinks
+                    let h = 15 + Math.random() * 10;
+                    ctx.fillRect(190 + c*18, 220 + r*35 - h, 10, h);
+                }
+            }
+
+            // The Bar Counter
+            ctx.fillStyle = "#3e2723"; // Dark Wood
+            ctx.fillRect(150, 320, 340, 50);
+            ctx.fillStyle = "#5d4037"; // Lighter Wood Top
+            ctx.fillRect(145, 310, 350, 15);
+
+            // Bar Stools
+            for(let i=0; i<5; i++) {
+                let sx = 180 + i * 70;
+                ctx.fillStyle = "#111"; 
+                ctx.fillRect(sx - 2, 350, 4, 40);
+                ctx.fillStyle = "#880000"; 
+                ctx.beginPath(); ctx.arc(sx, 350, 12, 0, Math.PI*2); ctx.fill();
+            }
+
+            // --- 4. GLASS WINDOWS (Overlay) ---
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.lineWidth = 2;
+            
+            for(let i=120; i<540; i+=60) {
+                ctx.beginPath(); ctx.moveTo(i, 100); ctx.lineTo(i, 390); ctx.stroke();
+            }
+
+            // String Lights (Hanging from ceiling)
+            for(let i=100; i<540; i+=30) {
+                ctx.fillStyle = Math.random() > 0.5 ? "#ffcc00" : "#ffaa00";
+                ctx.shadowColor = "#ffcc00";
+                ctx.shadowBlur = 10;
+                ctx.beginPath(); ctx.arc(i, 100 + Math.sin(i/20)*10, 3, 0, Math.PI*2); ctx.fill();
+                ctx.shadowBlur = 0; 
+            }
+
+            // 5. Floor Area (Outside/Deck)
+            ctx.fillStyle = "#222";
+            ctx.fillRect(0, 390, 640, 90);
+
+            // 6. NPCs
+            seltsamNPCs.forEach(npc => {
+                let bob = Math.sin(Date.now() / 200 + npc.bobOffset) * 6;
+                drawPixelChar({
+                    x: npc.x,
+                    y: npc.y + bob,
+                    color: npc.color,
+                    isMoving: false
+                }, 'npc');
+            });
+
+            // 7. Elevator (Exit)
+            ctx.fillStyle = "#444";
+            ctx.fillRect(550, 360 - 40, 50, 80);
+            
+            // Elevator Doors
+            ctx.fillStyle = "#ccc";
+            ctx.fillRect(552, 360 - 38, 22, 76); 
+            ctx.fillRect(576, 360 - 38, 22, 76); 
+            ctx.fillStyle = "#000";
+            ctx.fillRect(574, 360 - 38, 2, 76);
+            
+            // "UP" Light
+            ctx.fillStyle = "#00ff00";
+            ctx.fillRect(570, 360 - 50, 10, 5);
+        }
+
+        // LEVEL 2 CINEMA
+        function drawCinema() {
+            // 1. Background (Dark Theater)
+            const wallGrad = ctx.createLinearGradient(0, 0, 0, 480);
+            wallGrad.addColorStop(0, "#0a0000"); 
+            wallGrad.addColorStop(1, "#2a0505"); 
+            ctx.fillStyle = wallGrad;
+            ctx.fillRect(0, 0, 640, 480);
+
+            // 2. The Screen
+            ctx.save(); 
+
+            ctx.beginPath();
+            ctx.moveTo(80, 20);   // Top Left
+            ctx.lineTo(560, 20);  // Top Right
+            ctx.lineTo(540, 160); // Bottom Right
+            ctx.lineTo(100, 160); // Bottom Left
+            ctx.closePath();
+
+            // Screen Glow (Draw this BEHIND the image)
+            ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = "#000"; 
+            ctx.fill(); 
+            ctx.shadowBlur = 0;
+
+            ctx.clip(); 
+
+            if (movieImg.complete) {
+                ctx.drawImage(movieImg, 80, 20, 480, 140);
+                
+                ctx.fillStyle = `rgba(0, 0, 0, ${0.2 + Math.random() * 0.1})`; 
+                ctx.fillRect(80, 20, 480, 140);
+            } else {
+                ctx.fillStyle = "#333";
+                ctx.fillRect(0, 0, 640, 480);
+            }
+
+            ctx.restore();
+
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 20px Arial";
+            ctx.textAlign = "center";
+            ctx.globalAlpha = 0.8;
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 4;
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1.0;
+            ctx.textAlign = "left";
+
+            // 3. Projector Beam
+            ctx.save();
+            ctx.globalCompositeOperation = "screen";
+            const beamGrad = ctx.createLinearGradient(320, 0, 320, 200);
+            beamGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+            beamGrad.addColorStop(1, "rgba(255, 255, 255, 0.1)");
+            ctx.fillStyle = beamGrad;
+            ctx.beginPath();
+            ctx.moveTo(0, 480); ctx.lineTo(640, 480); 
+            ctx.lineTo(540, 160); ctx.lineTo(100, 160); 
+            ctx.fill();
+            ctx.restore();
+
+            // 4. STACKED SEATS (Stadium Seating)
+            const rows = 5;
+            const startY = 180; 
+            const rowHeight = 40; 
+            
+            for(let r = 0; r < rows; r++) {
+                let currentY = startY + r * rowHeight;
+                let scale = 0.8 + (r * 0.05); 
+                
+                // Riser
+                ctx.fillStyle = "#150505"; 
+                ctx.fillRect(0, currentY + 30, 640, rowHeight); 
+                
+                // Seats
+                let seatCount = 10;
+                let spacing = 60 * scale;
+                let startX = 320 - (seatCount * spacing) / 2;
+
+                for(let c = 0; c < seatCount; c++) {
+                    let sx = startX + c * spacing;
+                    let sy = currentY;
+
+                    // Back
+                    ctx.fillStyle = "#500000"; 
+                    ctx.beginPath();
+                    ctx.roundRect(sx, sy, 40 * scale, 35 * scale, 4);
+                    ctx.fill();
+
+                    // Cushion
+                    ctx.fillStyle = "#700000"; 
+                    ctx.fillRect(sx, sy + 20*scale, 40 * scale, 15 * scale);
+
+                    // Audience
+                    if(Math.random() > 0.7) {
+                        ctx.fillStyle = "#0a0a0a";
+                        ctx.beginPath(); 
+                        ctx.arc(sx + 20*scale, sy - 5*scale, 10*scale, 0, Math.PI*2); 
+                        ctx.fill();
+                        ctx.beginPath(); 
+                        ctx.ellipse(sx + 20*scale, sy + 15*scale, 15*scale, 10*scale, 0, 0, Math.PI, true); 
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // 5. THE WALKWAY & RAILINGS
+            // Barrier/Railing
+            ctx.fillStyle = "#111";
+            ctx.fillRect(0, 375, 640, 10); 
+            ctx.fillStyle = "#333";
+            for(let i=0; i<640; i+=40) {
+                ctx.fillRect(i, 375, 5, 20); 
+            }
+
+            // The Floor (Carpet)
+            ctx.fillStyle = "#3a0505"; 
+            ctx.fillRect(0, 380, 640, 100);
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            for(let i=0; i<640; i+=4) {
+                if(i%8===0) ctx.fillRect(i, 380, 2, 100);
+            }
+
+            // --- 6. EXIT SIGNS ---
+            let doorY = 340; 
+
+            // Left Door
+            ctx.fillStyle = "#050505";
+            ctx.fillRect(0, doorY, 50, 80); 
+            
+            // Right Door
+            ctx.fillRect(580, doorY, 50, 80); 
+
+            // Glowing Text
+            ctx.shadowColor = "#00ff00";
+            ctx.shadowBlur = 15;
+            ctx.fillStyle = "#00ff00";
+            ctx.font = "bold 12px Arial";
+            
+            ctx.fillText("EXIT", 10, doorY - 10);
+            ctx.fillText("EXIT", 590, doorY - 10);
+            
+            ctx.shadowBlur = 0; 
+
+            // 7. Vignette
+            const vign = ctx.createRadialGradient(320, 240, 200, 320, 240, 500);
+            vign.addColorStop(0, "transparent");
+            vign.addColorStop(1, "rgba(0,0,0,0.9)");
+            ctx.fillStyle = vign;
+            ctx.fillRect(0,0,640,480);
+        }
+
+        function drawHospitalStreet() {
+            const time = Date.now();
+
+            // 1. SKY & ATMOSPHERE
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, 480);
+            skyGrad.addColorStop(0, "#050510");   
+            skyGrad.addColorStop(0.5, "#1a1a2e"); 
+            skyGrad.addColorStop(1, "#2d2d44");   
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, 640, 480);
+
+            // Stars
+            ctx.fillStyle = "#fff";
+            for(let i=0; i<30; i++) {
+                if(i%3===0) ctx.globalAlpha = Math.random() * 0.5;
+                ctx.fillRect(Math.random()*640, Math.random()*300, 1, 1);
+            }
+            ctx.globalAlpha = 1.0;
+
+            // 2. DISTANT CITY (Parallax)
+            ctx.fillStyle = "#151525"; 
+            for(let i=0; i<15; i++) {
+                let h = 50 + Math.sin(i*132) * 30 + (i%3)*40;
+                ctx.fillRect(i*50 - 20, 330 - h, 60, h + 150);
+                // Distant lights
+                ctx.fillStyle = "#2a2a40";
+                if(i%2===0) ctx.fillRect(i*50, 330-h + 10, 4, 4);
+                ctx.fillStyle = "#151525"; 
+            }
+
+            // --- 3. THE HOSPITAL  ---
+            const hX = -20;
+            const hY = 60;
+            
+            // Shadows
+            ctx.shadowColor = "rgba(200, 230, 255, 0.1)";
+            ctx.shadowBlur = 20;
+
+            // Wings
+            ctx.fillStyle = "#263238"; 
+            ctx.fillRect(hX - 40, hY + 40, 60, 340);
+            ctx.fillRect(hX + 280, hY + 40, 60, 340);
+
+            // Main Body
+            ctx.fillStyle = "#37474f"; 
+            ctx.fillRect(hX, hY, 300, 340);
+            
+            // Roof Vents
+            ctx.fillStyle = "#222";
+            ctx.fillRect(hX + 50, hY - 20, 40, 20);
+            ctx.shadowBlur = 0;
+
+            // Windows
+            for(let y=0; y<6; y++) {
+                for(let x=0; x<8; x++) {
+                    let seed = Math.sin(x * 123 + y * 321);
+                    if (seed > 0.3) {
+                        ctx.fillStyle = seed > 0.8 ? "#ffcc80" : "#b3e5fc";
+                        ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 5;
+                        ctx.fillRect(hX + 25 + x*35, hY + 40 + y*45, 20, 25);
+                        ctx.shadowBlur = 0;
+                    } else {
+                        ctx.fillStyle = "#1a252a"; 
+                        ctx.fillRect(hX + 25 + x*35, hY + 40 + y*45, 20, 25);
+                    }
+                }
+            }
+
+            // Entrance Canopy
+            ctx.fillStyle = "#b71c1c"; 
+            ctx.beginPath();
+            ctx.moveTo(hX + 100, hY + 300); ctx.lineTo(hX + 200, hY + 300);
+            ctx.lineTo(hX + 220, hY + 340); ctx.lineTo(hX + 80, hY + 340);
+            ctx.fill();
+            
+            // Pillars
+            ctx.fillStyle = "#ccc";
+            ctx.fillRect(hX + 90, hY + 340, 10, 60);
+            ctx.fillRect(hX + 200, hY + 340, 10, 60);
+
+            // Sign
+            ctx.fillStyle = "#ff0000";
+            ctx.shadowColor = "red"; ctx.shadowBlur = 15;
+            ctx.fillRect(hX + 130, hY + 150, 40, 10); 
+            ctx.fillRect(hX + 145, hY + 135, 10, 40); 
+            ctx.shadowBlur = 0;
+
+
+            // --- 3.5 THE BAKERY ---
+            const bX = 460;
+            const bY = 140;
+
+            // Bakery Building
+            ctx.fillStyle = "#5d4037"; 
+            ctx.fillRect(bX, bY, 180, 260);
+            
+            // Warm Glow behind window
+            ctx.shadowColor = "#ffcc80"; ctx.shadowBlur = 30;
+            ctx.fillStyle = "#ffecb3"; 
+            ctx.fillRect(bX + 20, bY + 120, 140, 80);
+            ctx.shadowBlur = 0;
+
+            // Window Frame
+            ctx.strokeStyle = "#3e2723"; ctx.lineWidth = 4;
+            ctx.strokeRect(bX + 20, bY + 120, 140, 80);
+            ctx.beginPath(); ctx.moveTo(bX+90, bY+120); ctx.lineTo(bX+90, bY+200); ctx.stroke(); // Divider
+
+            // Pastries in window (Blobs)
+            ctx.fillStyle = "#8d6e63";
+            ctx.beginPath(); ctx.arc(bX + 50, bY + 180, 10, Math.PI, 0); ctx.fill(); // Bread 1
+            ctx.beginPath(); ctx.arc(bX + 80, bY + 180, 8, Math.PI, 0); ctx.fill();  // Bread 2
+            ctx.fillStyle = "#d7ccc8";
+            ctx.fillRect(bX + 120, bY + 170, 20, 15);
+
+            // Awning (Striped Red/White)
+            for(let i=0; i<9; i++) {
+                ctx.fillStyle = i%2===0 ? "#c62828" : "#eeeeee";
+                ctx.fillRect(bX + i*20, bY + 90, 20, 20);
+                // Dangly bits
+                ctx.beginPath(); ctx.arc(bX + i*20 + 10, bY + 110, 10, 0, Math.PI); ctx.fill();
+            }
+
+            // Sign
+            ctx.fillStyle = "#ffcc80";
+            ctx.font = "bold 16px Courier New";
+            ctx.shadowColor = "orange"; ctx.shadowBlur = 10;
+            ctx.fillText("Tattooed Baker", bX + 60, bY + 60);
+            ctx.shadowBlur = 0;
+            
+            // Door
+            ctx.fillStyle = "#3e2723";
+            ctx.fillRect(bX + 110, bY + 220, 50, 80);
+            ctx.fillStyle = "#ffcc80"; 
+            ctx.beginPath(); ctx.arc(bX + 115, bY + 260, 3, 0, Math.PI*2); ctx.fill();
+
+
+            // 4. STREET & SIDEWALK
+            ctx.fillStyle = "#333"; ctx.fillRect(0, 420, 640, 60); 
+            // Grain
+            ctx.fillStyle = "#444";
+            for(let i=0; i<100; i++) ctx.fillRect(Math.random()*640, 420+Math.random()*60, 2, 2);
+
+            ctx.fillStyle = "#666"; ctx.fillRect(0, 390, 640, 30);
+            ctx.fillStyle = "#888"; ctx.fillRect(0, 390, 640, 2); 
+
+            // 5. PROPS
+            // Bench 
+            const bx = 340, by = 370;
+            ctx.fillStyle = "#3e2723"; 
+            ctx.fillRect(bx, by, 80, 5); ctx.fillRect(bx, by+15, 80, 5);
+            ctx.fillStyle = "#111"; 
+            ctx.fillRect(bx+5, by, 5, 30); ctx.fillRect(bx+70, by, 5, 30);
+
+            // Street Light
+            const lx = 380;
+            ctx.fillStyle = "#222";
+            ctx.fillRect(lx, 100, 8, 300);
+            ctx.beginPath(); ctx.moveTo(lx+4, 100); ctx.lineTo(lx-40, 90); ctx.stroke();
+            
+            // Light Cone
+            const grad = ctx.createRadialGradient(lx-30, 95, 0, lx-30, 400, 150);
+            grad.addColorStop(0, "rgba(255, 255, 200, 0.4)"); 
+            grad.addColorStop(1, "rgba(255, 255, 200, 0)");   
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.moveTo(lx-45, 95); ctx.lineTo(lx-15, 95);
+            ctx.lineTo(lx+20, 420); ctx.lineTo(lx-100, 420); ctx.fill();
+
+            // 6. MIST
+            ctx.fillStyle = "rgba(200, 220, 255, 0.1)";
+            const mistOffset = (time / 50) % 640;
+            ctx.fillRect(mistOffset - 640, 350, 640, 100);
+            ctx.fillRect(mistOffset, 350, 640, 100);
+            
+            // 7. CAR
+            if(dialogueCompleted) {
+                ctx.fillStyle = "#eee";
+                ctx.fillRect(520, 380, 110, 35);
+                ctx.beginPath(); ctx.moveTo(540, 380); ctx.lineTo(550, 355); ctx.lineTo(600, 355); ctx.lineTo(610, 380); ctx.fill();
+                ctx.fillStyle = "#222";
+                ctx.beginPath(); ctx.moveTo(545, 378); ctx.lineTo(553, 358); ctx.lineTo(573, 358); ctx.lineTo(573, 378); ctx.fill(); 
+                ctx.beginPath(); ctx.moveTo(576, 378); ctx.lineTo(576, 358); ctx.lineTo(597, 358); ctx.lineTo(605, 378); ctx.fill(); 
+                ctx.fillStyle = "#aa0000"; ctx.shadowColor = "red"; ctx.shadowBlur = 10;
+                ctx.fillRect(625, 390, 5, 10); ctx.shadowBlur = 0;
+                ctx.fillStyle = "#ffffcc"; ctx.shadowColor = "white"; ctx.shadowBlur = 10;
+                ctx.fillRect(520, 390, 5, 10); ctx.shadowBlur = 0;
+                ctx.fillStyle = "#333";
+                ctx.beginPath(); ctx.arc(545, 415, 11, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(605, 415, 11, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = "#888";
+                ctx.beginPath(); ctx.arc(545, 415, 5, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(605, 415, 5, 0, Math.PI*2); ctx.fill();
+            }
+        }
+
+        // --- LEVEL 4: LAB ---
+        function drawLab() {
+            // 1. Background 
+            ctx.fillStyle = "#1a1a2e";
+            ctx.fillRect(0,0,640,480);
+
+            // 2. Tiled Floor
+            ctx.fillStyle = "#202035";
+            ctx.fillRect(0, 380, 640, 100);
+            ctx.strokeStyle = "#2a2a40";
+            ctx.lineWidth = 2;
+            for(let x=0; x<640; x+=40) {
+                ctx.beginPath(); ctx.moveTo(x, 380); ctx.lineTo(x - 40, 480); ctx.stroke();
+            }
+
+            // 3. Background Shelves & Cabinets
+            ctx.fillStyle = "#252535";
+            ctx.fillRect(50, 100, 150, 200); 
+            ctx.fillRect(440, 100, 150, 200);
+            
+            // Shelf contents 
+            for(let row=0; row<3; row++) {
+                ctx.fillStyle = "#151520"; 
+                ctx.fillRect(60, 120 + row*60, 130, 5); 
+                ctx.fillRect(450, 120 + row*60, 130, 5); 
+
+                // Draw little bottles on shelves
+                for(let b=0; b<5; b++) {
+                    ctx.fillStyle = Math.random() > 0.5 ? "#44aa88" : "#aa4488";
+                    ctx.fillRect(70 + b*20, 105 + row*60, 10, 15);
+                    ctx.fillStyle = Math.random() > 0.5 ? "#4488aa" : "#aaaa44";
+                    ctx.fillRect(460 + b*20, 105 + row*60, 10, 15);
+                }
+            }
+
+            // 4. Chalkboard (Center)
+            ctx.fillStyle = "#223322";
+            ctx.fillRect(220, 80, 200, 120); 
+            ctx.strokeStyle = "#445544"; 
+            ctx.strokeRect(220, 80, 200, 120); 
+
+            // --- TEXT ---
+            ctx.fillStyle = "rgba(255,255,255,0.9)"; 
+            ctx.font = "bold 11px Courier New"; 
+            
+            // The Pickup Line
+            ctx.fillText("Girl, you're so hot,", 230, 100); 
+            ctx.fillText("you denature", 230, 115); 
+            ctx.fillText("my proteins", 230, 130);
+
+            // The Dopamine Letters 
+            ctx.fillStyle = "rgba(200,255,255,0.7)"; 
+            ctx.font = "10px Arial";
+            ctx.fillText("C8H11NO2", 230, 185);
+
+            // --- DOODLES ---
+            ctx.strokeStyle = "rgba(255,255,255,0.4)"; 
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            const hexX = 290, hexY = 180, r = 8;
+            for(let i=0; i<6; i++) {
+                const ang = i * Math.PI / 3;
+                const hx = hexX + Math.cos(ang) * r;
+                const hy = hexY + Math.sin(ang) * r;
+                if(i===0) ctx.moveTo(hx, hy); else ctx.lineTo(hx, hy);
+            }
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(370, 90);
+            for(let i=0; i<=30; i+=5) {
+                ctx.lineTo(370 + i, 90 + Math.sin(i)*5);
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(390, 160, 12, 0, Math.PI*2); 
+            ctx.stroke();
+            // Streaking lines inside dish
+            ctx.beginPath();
+            ctx.moveTo(385, 158); ctx.lineTo(395, 160); ctx.lineTo(385, 162);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(305, 127);
+            ctx.bezierCurveTo(310, 115, 320, 135, 330, 127);
+            ctx.stroke();
+
+            // 5. Main Lab Table
+            ctx.fillStyle = "#556";
+            ctx.fillRect(0, 300, 640, 80); 
+            ctx.fillStyle = "#778"; 
+            ctx.fillRect(0, 300, 640, 10);
+
+            // 6. Beakers & Flasks
+            const colors = ["#00ff00", "#00ffff", "#ff00ff"];
+            for(let i=0; i<4; i++) {
+                let bx = 50 + i * 150;
+                // Flask body
+                ctx.fillStyle = "rgba(200,200,255,0.2)";
+                ctx.beginPath();
+                ctx.moveTo(bx, 290); ctx.lineTo(bx+20, 290); 
+                ctx.lineTo(bx+30, 300); ctx.lineTo(bx-10, 300); 
+                ctx.fill();
+                // Liquid
+                ctx.fillStyle = colors[i%3];
+                ctx.fillRect(bx, 295, 20, 5);
+                // Bubbles
+                if(Math.random() > 0.5) {
+                    ctx.fillStyle = "rgba(255,255,255,0.5)";
+                    ctx.beginPath(); ctx.arc(bx+10, 280, 2, 0, Math.PI*2); ctx.fill();
+                }
+            }
+
+            // 7. The Microscope (Goal)
+            ctx.fillStyle = "#ccc";
+            ctx.fillRect(315, 270, 10, 30);
+            ctx.fillRect(310, 300, 20, 5); 
+            ctx.fillStyle = "#222";
+            ctx.beginPath(); ctx.arc(320, 270, 8, 0, Math.PI*2); ctx.fill(); 
+            
+            // Highlight the microscope
+            if(Math.floor(Date.now()/200)%2===0) {
+                ctx.strokeStyle = "#ffff00";
+                ctx.strokeRect(305, 260, 30, 50);
+            }
+
+            // Suction Effect Overlay
+            if(vortexState.phase === 'sucking') {
+                ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 + Math.random()*0.5})`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(320, 300, vortexState.timer * 2, 0, Math.PI*2);
+                ctx.stroke();
+            }
+        }
+
+        function drawMicroDimension() {
+            const bgGrad = ctx.createRadialGradient(320, 240, 50, 320, 240, 400);
+            bgGrad.addColorStop(0, "#330011");
+            bgGrad.addColorStop(0.5, "#660022");
+            bgGrad.addColorStop(1, "#000");
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0,0,640,480);
+
+            // Heart Bacterias
+            heartBacterias.forEach(c => {
+                ctx.fillStyle = c.color;
+                const s = c.size + Math.sin(c.pulse) * 2; 
+                const cx = c.x;
+                const cy = c.y;
+
+                // Heart Shape
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + s * 0.3);
+                ctx.bezierCurveTo(cx - s * 0.5, cy - s * 0.3, cx - s * 0.8, cy + s * 0.2, cx, cy + s * 0.8);
+                ctx.bezierCurveTo(cx + s * 0.8, cy + s * 0.2, cx + s * 0.5, cy - s * 0.3, cx, cy + s * 0.3);
+                ctx.fill();
+
+                // Cilia (hairs)
+                ctx.strokeStyle = "rgba(255, 200, 200, 0.5)";
+                ctx.lineWidth = 1;
+                for(let j=0; j<8; j++) {
+                    let angle = j * (Math.PI*2/8) + c.pulse;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(cx + Math.cos(angle)*(s+5), cy + Math.sin(angle)*(s+5));
+                    ctx.stroke();
+                }
+            });
+
+            const grad = ctx.createRadialGradient(320, 240, 200, 320, 240, 400);
+            grad.addColorStop(0, "transparent");
+            grad.addColorStop(1, "black");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,640,480);
+        }
+
+        // --- LEVEL 5: Purple Paradise  ---
+        function drawHilltop() {
             const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
             skyGrad.addColorStop(0, "#2a1b3d");
             skyGrad.addColorStop(0.6, "#4d3169");
@@ -658,46 +1465,299 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#ffffff";
             stars.forEach(star => {
-                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
+                star.brightness += 0.02;
+                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed + star.brightness) * 0.4;
                 ctx.fillRect(star.x, star.y, star.size, star.size);
             });
             ctx.globalAlpha = 1.0;
-            ctx.fillStyle = "#b388eb";
-            ctx.font = "bold 48px 'Courier New'";
-            ctx.textAlign = "center";
-            ctx.shadowColor = "rgba(179, 136, 235, 0.8)";
-            ctx.shadowBlur = 20;
-            ctx.fillText("PROJECT:", canvas.width / 2, 150);
-            ctx.fillText("HONEY BUTTER", canvas.width / 2, 210);
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            shootingStars.forEach(ss => {
+                ctx.globalAlpha = ss.life;
+                ctx.beginPath();
+                ctx.moveTo(ss.x, ss.y);
+                ctx.lineTo(ss.x + ss.len, ss.y - 2);
+                ctx.stroke();
+            });
+            ctx.globalAlpha = 1.0;
+            const moonPulse = Math.sin(Date.now() * 0.002) * 5;
+            ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
+            ctx.shadowBlur = 30 + moonPulse;
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(550, 80, 35, 0, Math.PI * 2);
+            ctx.fill();
             ctx.shadowBlur = 0;
-            ctx.fillStyle = "#ff99aa";
-            ctx.font = "24px 'Courier New'";
-            ctx.fillText("A Birthday Message", canvas.width / 2, 260);
-            const pulse = Math.sin(Date.now() * 0.003) * 10;
-            ctx.fillStyle = "#ff99aa";
-            ctx.font = "40px Arial";
-            ctx.fillText("♥", canvas.width / 2 - 60, 320 + pulse);
-            ctx.fillText("♥", canvas.width / 2 + 60, 320 - pulse);
-            ctx.fillStyle = "#dcdcdc";
-            ctx.font = "20px 'Courier New'";
-            const blink = Math.floor(Date.now() / 500) % 2;
-            if (blink) {
-                ctx.fillText("Press SPACE to start", canvas.width / 2, 400);
+            ctx.fillStyle = "rgba(200, 200, 220, 0.3)";
+            ctx.beginPath(); ctx.arc(565, 70, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(545, 85, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#6e4c85";
+            clouds.forEach(c => {
+                const wobble = Math.sin(Date.now() * 0.001 + c.x) * 2;
+                ctx.globalAlpha = 0.7;
+                ctx.beginPath();
+                ctx.roundRect(c.x, c.y + wobble, c.w, c.h, 20);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.roundRect(c.x+20, c.y-15 + wobble, c.w-30, c.h, 20);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            });
+            fireflies.forEach(f => {
+                const glow = Math.sin(f.glowPhase) * 0.5 + 0.5;
+                ctx.shadowColor = `rgba(255, 255, 150, ${glow})`;
+                ctx.shadowBlur = 15 * glow;
+                ctx.fillStyle = `rgba(255, 255, 150, ${glow})`;
+                ctx.beginPath(); ctx.arc(f.x, f.y, 2, 0, Math.PI * 2); ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+            ctx.fillStyle = "#2a1b3d";
+            ctx.fillRect(0, 400, canvas.width, 80);
+            ctx.fillStyle = "#3a2b4d";
+            grassBlades.forEach(g => {
+                 const sway = Math.sin(Date.now() * g.swaySpeed + g.swayPhase) * 3;
+                ctx.beginPath();
+                ctx.moveTo(g.x, g.y);
+                ctx.lineTo(g.x + 2, g.y);
+                ctx.lineTo(g.x + 2 + sway, g.y - g.h);
+                ctx.lineTo(g.x + sway, g.y - g.h);
+                ctx.closePath();
+                ctx.fill();
+            });
+            ctx.fillStyle = "rgba(122, 76, 138, 0.3)";
+            for(let i=0; i<10; i++) {
+                ctx.fillRect(0, 410 + i*8, canvas.width, 2 + Math.random()*2);
             }
-            ctx.textAlign = "left";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.fillRect(520, 410, 60, 4);
+            ctx.fillRect(530, 420, 40, 3);
+            ctx.fillRect(540, 430, 20, 2);
+            ctx.fillStyle = "#1a1a2e";
+            ctx.beginPath();
+            ctx.moveTo(0, 420);
+            ctx.lineTo(150, 350); ctx.lineTo(300, 380); ctx.lineTo(450, 360);
+            ctx.lineTo(640, 400); ctx.lineTo(640, 480); ctx.lineTo(0, 480); ctx.fill();
+            ctx.fillStyle = "#121220";
+            ctx.fillRect(0, 400, canvas.width, 5);
+        }
+
+        // --- SHARED DRAW FUNCTIONS ---
+        function drawTalkingScene() {
+            if (currentLevel === 1 && talkBg1.complete) {
+                ctx.drawImage(talkBg1, 0, 0, canvas.width, canvas.height);
+            } 
+            else if (currentLevel === 3 && talkBg3.complete) {
+                ctx.drawImage(talkBg3, 0, 0, canvas.width, canvas.height);
+            } 
+            else if (currentLevel === 4) {
+                if (microBg.complete && microBg.naturalWidth !== 0) {
+                    ctx.drawImage(microBg, 0, 0, canvas.width, canvas.height);
+                } else {
+                    ctx.fillStyle = "#330011"; 
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    ctx.globalAlpha = 0.2;
+                    ctx.fillStyle = "#ff99aa";
+                    for(let i=0; i<30; i++) {
+                        let bx = (i * 73) % canvas.width;
+                        let by = (i * 47) % canvas.height;
+                        let s = 10 + (i % 5) * 5;
+                        
+                        ctx.beginPath();
+                        ctx.arc(bx, by, s, 0, Math.PI*2);
+                        ctx.fill();
+                        
+                        ctx.fillStyle = "#ffccdd";
+                        ctx.beginPath();
+                        ctx.arc(bx + 2, by - 2, s/3, 0, Math.PI*2);
+                        ctx.fill();
+                        ctx.fillStyle = "#ff99aa"; 
+                    }
+                    ctx.globalAlpha = 1.0;
+
+                    const grad = ctx.createRadialGradient(320, 240, 200, 320, 240, 450);
+                    grad.addColorStop(0, "transparent");
+                    grad.addColorStop(1, "black");
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0,0,640,480);
+                }
+            }
+            else if (currentLevel === 5 && talkBg5.complete) {
+                ctx.drawImage(talkBg5, 0, 0, canvas.width, canvas.height);
+            } 
+            else {
+                if (currentLevel === 2) ctx.fillStyle = "#220000"; 
+                else ctx.fillStyle = "#2a1b3d"; 
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // 2. Add atmospheric stars (Only for outdoor levels 1, 3, 5)
+            if (currentLevel !== 2 && currentLevel !== 4) {
+                ctx.fillStyle = "#fff";
+                stars.forEach(star => {
+                    ctx.globalAlpha = 0.4 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
+                    ctx.fillRect(star.x, star.y, star.size, star.size);
+                });
+                ctx.globalAlpha = 1.0;
+            }
+
+            // 3. Falling Hearts 
+            hearts.forEach(h => {
+                ctx.fillStyle = `rgba(255, 150, 180, ${h.opacity})`;
+                ctx.fillRect(h.x, h.y, h.size, h.size);
+            });
+
+            // 4. Character Portraits
+            const imgW = 200; const imgH = 250;
+            const lines = levelScripts[currentLevel];
+            
+            if(lines && scriptIndex < lines.length) {
+                const speaker = lines[scriptIndex].speaker;
+                
+                // Fher Logic
+                const fherTick = Math.floor(Date.now() / 400) % 2 === 0; 
+                const fherAnimating = (speaker === "Fher" && isTyping && fherTick);
+                let fherCurrent = fherAnimating ? fherOpen : fherClosed;
+                
+                if (fherClosed.complete && currentLevel !== 4) {
+                    if(speaker !== "Fher") ctx.globalAlpha = 0.5;
+                    ctx.drawImage(fherCurrent, 50, 100, imgW, imgH);
+                    ctx.globalAlpha = 1.0;
+                }
+
+                // Jhaeivy Logic
+                const jhaeivyTick = Math.floor(Date.now() / 400) % 2 === 0;
+                const jhaeivyAnimating = (speaker === "Jhaeivy" && isTyping && jhaeivyTick);
+                let jhaeivyCurrent = jhaeivyAnimating ? jhaeivyOpen : jhaeivyClosed;
+                
+                if (jhaeivyClosed.complete) {
+                    if(speaker !== "Jhaeivy") ctx.globalAlpha = 0.5;
+                    ctx.drawImage(jhaeivyCurrent, 390, 100, imgW, imgH);
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+        }
+
+        function drawPixelChar(char, type) {
+            const x = char.x;
+            const y = char.y;
+            const isMoving = char.isMoving;
+            const animOffset = isMoving ? Math.sin(animationFrame * 0.5) * 5 : 0;
+            const skinColor = "#ffccaa";
+            const hairColor = "#2a1b3d";
+            
+            if (type === 'fher' || type === 'npc') {
+                ctx.fillStyle = skinColor; ctx.fillRect(x + 10, y, 12, 12);
+                ctx.fillStyle = hairColor; ctx.fillRect(x + 10, y, 12, 4);
+                ctx.fillStyle = char.color; ctx.fillRect(x + 6, y + 12, 20, 18);
+                ctx.fillRect(x + 2, y + 12, 4, 14); ctx.fillRect(x + 26, y + 12, 4, 14);
+                ctx.fillStyle = skinColor; ctx.fillRect(x + 2, y + 26, 4, 3); ctx.fillRect(x + 26, y + 26, 4, 3);
+                ctx.fillStyle = "#777777"; ctx.fillRect(x + 8 - (isMoving ? animOffset : 0), y + 30, 6, 18);
+                ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 6, 18);
+            }
+            if (type === 'jhaeivy') {
+                ctx.fillStyle = skinColor; ctx.fillRect(x + 10, y, 12, 12);
+                ctx.fillStyle = hairColor; ctx.fillRect(x + 8, y, 16, 4);
+                ctx.fillRect(x + 8, y + 4, 4, 12); ctx.fillRect(x + 20, y + 4, 4, 12);
+                ctx.fillStyle = char.color; ctx.fillRect(x + 8, y + 12, 16, 18);
+                ctx.fillStyle = skinColor; ctx.fillRect(x + 4, y + 12, 4, 14); ctx.fillRect(x + 24, y + 12, 4, 14);
+                
+                // --- LEGS ---
+                ctx.fillStyle = "#111111"; 
+                
+                ctx.fillRect(x + 11 - (isMoving ? animOffset * 0.5 : 0), y + 30, 4, 18);
+                ctx.fillRect(x + 16 + (isMoving ? animOffset * 0.5 : 0), y + 30, 4, 18);
+            }
+        }
+
+        // --- CREDITS & MENU ---
+        let creditsScroll = 0;
+        let creditsShapes = [];
+        let lastImageIndex = -1;
+
+        function initCredits() {
+            creditsScroll = 0;
+            creditsShapes = [];
+            for (let i = 0; i < 30; i++) spawnRandomShape();
+        }
+
+        function spawnRandomShape() {
+            let types = ['heart', 'flower', 'star', 'sparkle'];
+            if (usImages.length > 0) types.push('image', 'image', 'image');
+            const type = types[Math.floor(Math.random() * types.length)];
+            const shape = {
+                type: type, x: 40 + Math.random() * (canvas.width - 80),
+                rotation: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - 0.5) * 0.02,
+            };
+            if (type === 'image') {
+                shape.y = canvas.height + 50 + Math.random() * 150;
+                shape.speed = 0.35 + Math.random() * 0.7;
+                let index = Math.floor(Math.random() * usImages.length);
+                if (usImages.length > 1 && index === lastImageIndex) index = (index + 1) % usImages.length;
+                lastImageIndex = index;
+                shape.img = usImages[index];
+                shape.size = 30 + Math.random() * 30;
+                shape.opacity = 0.8 + Math.random() * 0.2;
+                shape.isMovingUp = true;
+            } else {
+                shape.y = Math.random() * canvas.height;
+                shape.size = 10 + Math.random() * 20;
+                shape.opacity = 0.3 + Math.random() * 0.5;
+                shape.color = ['#ff99aa', '#ffccaa', '#b388eb', '#88ffcc'][Math.floor(Math.random() * 4)];
+                shape.isMovingUp = false;
+            }
+            creditsShapes.push(shape);
+        }
+
+        function drawShape(shape) {
+            ctx.save();
+            ctx.globalAlpha = shape.opacity;
+            ctx.translate(shape.x, shape.y);
+            ctx.rotate(shape.rotation);
+            const s = shape.size;
+            if (shape.type === 'image') {
+                if(shape.img.complete) {
+                    ctx.fillStyle = "#ffffff"; ctx.fillRect(-s/2 - 2, -s/2 - 2, s + 4, s + 4);
+                    ctx.drawImage(shape.img, -s/2, -s/2, s, s);
+                }
+            } else if (shape.type === 'heart') {
+                ctx.fillStyle = shape.color; ctx.beginPath(); ctx.moveTo(0, s * 0.3);
+                ctx.bezierCurveTo(-s * 0.5, -s * 0.3, -s * 0.8, s * 0.2, 0, s * 0.8);
+                ctx.bezierCurveTo(s * 0.8, s * 0.2, s * 0.5, -s * 0.3, 0, s * 0.3); ctx.fill();
+            } else if (shape.type === 'star') {
+                ctx.fillStyle = shape.color; ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                     const angle = (i * Math.PI * 2) / 5 - Math.PI / 2;
+                     const x = Math.cos(angle) * s * 0.5; const y = Math.sin(angle) * s * 0.5;
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    const innerAngle = angle + Math.PI / 5;
+                     const ix = Math.cos(innerAngle) * s * 0.2; const iy = Math.sin(innerAngle) * s * 0.2;
+                    ctx.lineTo(ix, iy);
+                }
+                ctx.closePath(); ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function updateCredits() {
+            creditsScroll += 0.5;
+            if (Math.random() < 0.03) spawnRandomShape();
+            for (let i = creditsShapes.length - 1; i >= 0; i--) {
+                let shape = creditsShapes[i];
+                shape.rotation += shape.rotSpeed;
+                if (shape.isMovingUp) shape.y -= shape.speed;
+                if (creditsShapes.length > 60 && !shape.isMovingUp) creditsShapes.splice(i, 1);
+                else if (shape.isMovingUp && shape.y < -150) creditsShapes.splice(i, 1);
+            }
         }
 
         function drawCredits() {
             const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            grad.addColorStop(0, "#1a1a2e");
-            grad.addColorStop(1, "#2a1b3d");
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, "#1a1a2e"); grad.addColorStop(1, "#2a1b3d");
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
             creditsShapes.forEach(shape => drawShape(shape));
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
-            ctx.shadowBlur = 10;
+            ctx.fillStyle = "#ffffff"; ctx.textAlign = "center";
+            ctx.shadowColor = "rgba(0, 0, 0, 0.8)"; ctx.shadowBlur = 10;
             const credits = [
                 { text: "PROJECT: HONEY BUTTER", size: 32, color: "#b388eb", offset: 0 },
                 { text: "", size: 20, color: "#fff", offset: 60 },
@@ -733,188 +1793,52 @@
             });
             ctx.shadowBlur = 0;
             if (creditsScroll > 2000) {
-                ctx.fillStyle = "#dcdcdc";
-                ctx.font = "18px 'Courier New'";
-                const blink = Math.floor(Date.now() / 500) % 2;
-                if (blink) {
-                    ctx.fillText("Press SPACE to return to menu", canvas.width / 2, canvas.height - 30);
-                }
+                ctx.fillStyle = "#dcdcdc"; ctx.font = "18px 'Courier New'";
+                if (Math.floor(Date.now() / 500) % 2) ctx.fillText("Press SPACE to return to menu", canvas.width / 2, canvas.height - 30);
             }
             ctx.textAlign = "left";
         }
 
-        function drawScenery() {
+        function drawMenu() {
             const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            skyGrad.addColorStop(0, "#2a1b3d");
-            skyGrad.addColorStop(0.6, "#4d3169");
-            skyGrad.addColorStop(1, "#7a4c8a");
-            ctx.fillStyle = skyGrad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            skyGrad.addColorStop(0, "#2a1b3d"); skyGrad.addColorStop(0.6, "#4d3169"); skyGrad.addColorStop(1, "#7a4c8a");
+            ctx.fillStyle = skyGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#ffffff";
             stars.forEach(star => {
-                star.brightness += 0.02;
-                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed + star.brightness) * 0.4;
+                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * star.blinkSpeed) * 0.4;
                 ctx.fillRect(star.x, star.y, star.size, star.size);
-                if (Math.random() < 0.001) {
-                    ctx.globalAlpha = 1;
-                    ctx.fillRect(star.x - 1, star.y, 1, 1);
-                    ctx.fillRect(star.x + star.size, star.y, 1, 1);
-                }
             });
             ctx.globalAlpha = 1.0;
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 2;
-            shootingStars.forEach(ss => {
-                 ctx.globalAlpha = ss.life;
-                 ctx.beginPath();
-                 ctx.moveTo(ss.x, ss.y);
-                 ctx.lineTo(ss.x + ss.len, ss.y - 2);
-                 ctx.stroke();
-            });
-            ctx.globalAlpha = 1.0;
-            const moonPulse = Math.sin(Date.now() * 0.002) * 5;
-            ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
-            ctx.shadowBlur = 30 + moonPulse;
-            ctx.fillStyle = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(550, 80, 35, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = "#b388eb"; ctx.font = "bold 48px 'Courier New'"; ctx.textAlign = "center";
+            ctx.shadowColor = "rgba(179, 136, 235, 0.8)"; ctx.shadowBlur = 20;
+            ctx.fillText("PROJECT:", canvas.width / 2, 150);
+            ctx.fillText("HONEY BUTTER", canvas.width / 2, 210);
             ctx.shadowBlur = 0;
-            ctx.fillStyle = "rgba(200, 200, 220, 0.3)";
-            ctx.beginPath();
-            ctx.arc(565, 70, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(545, 85, 5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = "#6e4c85";
-            clouds.forEach(c => {
-                const wobble = Math.sin(Date.now() * 0.001 + c.x) * 2;
-                ctx.globalAlpha = 0.7;
-                ctx.beginPath();
-                ctx.roundRect(c.x, c.y + wobble, c.w, c.h, 20);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.roundRect(c.x+20, c.y-15 + wobble, c.w-30, c.h, 20);
-                ctx.fill();
-                ctx.globalAlpha = 1.0;
-            });
-            fireflies.forEach(f => {
-                const glow = Math.sin(f.glowPhase) * 0.5 + 0.5;
-                ctx.shadowColor = `rgba(255, 255, 150, ${glow})`;
-                ctx.shadowBlur = 15 * glow;
-                ctx.fillStyle = `rgba(255, 255, 150, ${glow})`;
-                ctx.beginPath();
-                ctx.arc(f.x, f.y, 2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            });
-            ctx.fillStyle = "#2a1b3d";
-            ctx.fillRect(0, 400, canvas.width, 80);
-            ctx.fillStyle = "#3a2b4d";
-            grassBlades.forEach(g => {
-                 const sway = Math.sin(Date.now() * g.swaySpeed + g.swayPhase) * 3;
-                 ctx.beginPath();
-                 ctx.moveTo(g.x, g.y);
-                 ctx.lineTo(g.x + 2, g.y);
-                 ctx.lineTo(g.x + 2 + sway, g.y - g.h);
-                 ctx.lineTo(g.x + sway, g.y - g.h);
-                 ctx.closePath();
-                 ctx.fill();
-            });
-            ctx.fillStyle = "rgba(122, 76, 138, 0.3)";
-            for(let i=0; i<10; i++) {
-                ctx.fillRect(0, 410 + i*8, canvas.width, 2 + Math.random()*2);
-            }
-            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-            ctx.fillRect(520, 410, 60, 4);
-            ctx.fillRect(530, 420, 40, 3);
-            ctx.fillRect(540, 430, 20, 2);
-            ctx.fillStyle = "#1a1a2e";
-            ctx.beginPath();
-            ctx.moveTo(0, 420);
-            ctx.lineTo(150, 350);
-            ctx.lineTo(300, 380);
-            ctx.lineTo(450, 360);
-            ctx.lineTo(640, 400);
-            ctx.lineTo(640, 480);
-            ctx.lineTo(0, 480);ctx.fill();
-            ctx.fillStyle = "#121220";
-            ctx.fillRect(0, 400, canvas.width, 5);
+            ctx.fillStyle = "#ff99aa"; ctx.font = "24px 'Courier New'";
+            ctx.fillText("A Birthday Message", canvas.width / 2, 260);
+            const pulse = Math.sin(Date.now() * 0.003) * 10;
+            ctx.fillStyle = "#ff99aa"; ctx.font = "40px Arial";
+            ctx.fillText("♥", canvas.width / 2 - 60, 320 + pulse);
+            ctx.fillText("♥", canvas.width / 2 + 60, 320 - pulse);
+            ctx.fillStyle = "#dcdcdc"; ctx.font = "20px 'Courier New'";
+            if (Math.floor(Date.now() / 500) % 2) ctx.fillText("Press SPACE to start", canvas.width / 2, 400);
+            ctx.textAlign = "left";
         }
 
-        function drawPixelChar(char, type) {
-            const x = char.x;
-            const y = char.y;
-            const isMoving = char.isMoving;
-            const animOffset = isMoving ? Math.sin(animationFrame * 0.5) * 5 : 0;
-            const skinColor = "#ffccaa";
-            const hairColor = "#2a1b3d";
-            if (type === 'fher') {
-                ctx.fillStyle = skinColor;
-                ctx.fillRect(x + 10, y, 12, 12);
-                ctx.fillStyle = hairColor;
-                ctx.fillRect(x + 10, y, 12, 4);
-                ctx.fillStyle = char.color;
-                ctx.fillRect(x + 6, y + 12, 20, 18);
-                ctx.fillRect(x + 2, y + 12, 4, 14);
-                ctx.fillRect(x + 26, y + 12, 4, 14);
-                ctx.fillStyle = skinColor;
-                ctx.fillRect(x + 2, y + 26, 4, 3);
-                ctx.fillRect(x + 26, y + 26, 4, 3);
-                ctx.fillStyle = "#777777";
-                ctx.fillRect(x + 8 - (isMoving ? animOffset : 0), y + 30, 6, 18);
-                ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 6, 18);
-            }
-            if (type === 'jhaeivy') {
-                ctx.fillStyle = skinColor;
-                ctx.fillRect(x + 10, y, 12, 12);
-                ctx.fillStyle = hairColor;
-                ctx.fillRect(x + 8, y, 16, 4);
-                ctx.fillRect(x + 8, y + 4, 4, 12);
-                ctx.fillRect(x + 20, y + 4, 4, 12);
-                ctx.fillStyle = char.color;
-                ctx.fillRect(x + 8, y + 12, 16, 18);
-                ctx.fillStyle = skinColor;
-                ctx.fillRect(x + 4, y + 12, 4, 14);
-                ctx.fillRect(x + 24, y + 12, 4, 14);
-                ctx.fillStyle = "#111111";
-                ctx.fillRect(x + 10 - (isMoving ? animOffset : 0), y + 30, 4, 18);
-                ctx.fillRect(x + 18 + (isMoving ? animOffset : 0), y + 30, 4, 18);
-            }
-        }
-
-        // --- MOBILE CONTROLS LOGIC ---
+        // --- CONTROLS LOGIC ---
         function simulateKey(code, type) {
-            const event = new KeyboardEvent(type, {
-                key: code === 'Space' ? ' ' : code,
-                code: code,
-                bubbles: true
-            });
+            const event = new KeyboardEvent(type, { key: code === 'Space' ? ' ' : code, code: code, bubbles: true });
             window.dispatchEvent(event);
         }
-
         const btnLeft = document.getElementById('btn-left');
         const btnRight = document.getElementById('btn-right');
         const btnAction = document.getElementById('btn-action');
-
         function bindTouch(btn, code) {
-            btn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                simulateKey(code, 'keydown');
-            });
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                simulateKey(code, 'keyup');
-            });
-            btn.addEventListener('mousedown', (e) => {
-                simulateKey(code, 'keydown');
-            });
-            btn.addEventListener('mouseup', (e) => {
-                simulateKey(code, 'keyup');
-            });
+            btn.addEventListener('touchstart', (e) => { e.preventDefault(); simulateKey(code, 'keydown'); });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); simulateKey(code, 'keyup'); });
+            btn.addEventListener('mousedown', (e) => { simulateKey(code, 'keydown'); });
+            btn.addEventListener('mouseup', (e) => { simulateKey(code, 'keyup'); });
         }
-
         bindTouch(btnLeft, 'ArrowLeft');
         bindTouch(btnRight, 'ArrowRight');
         bindTouch(btnAction, 'Space');
@@ -930,9 +1854,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
